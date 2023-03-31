@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="character_quiz.css">
+</head>
+<body>
+    <div class="screen">
+        <div class="subject">
+            <form>
+                <div>출제 주제를 선택해주세요</div>
+                <input type="button" class="sportBtn" value="sport player"/>
+            </form>
+        </div>
+        <div class="number">
+            <form>
+                <div>플레이어 수를 입력하세요.(한바퀴를 돕니다.)</div>
+                <input class="numberInput"/>
+                <input type="button" class="numberBtn" value="enter"/>
+            </form>
+            
+        </div>
+        <div class="gameScreen">
+            <div>gameScreen</div>
+            <img class="currentImage" src="sportImage.jpg" alt="image">
+            <button>next</button>
+        </div>
+    </div>
+
+    <script>
+        const $subject = document.querySelector(".subject");
+        const $sportBtn = document.querySelector(".sportBtn");
+        const $number = document.querySelector(".number");
+        const $numberBtn = document.querySelector(".numberBtn")
+        const $gameScreen = document.querySelector(".gameScreen");
+        const $currentImage = document.querySelector(".currentImage")
+
+        const images = ['./iamges/sportPlayers/김연경.jpg','./iamges/sportPlayers/김하성.jpg','./iamges/sportPlayers/박세리.jpg']
+
+        $number.style.display = 'none'
+        $gameScreen.style.display = 'none'
+
+        // const $button = document.querySelector()
+        function selectSubject(e) {
+            $subject.style.display = 'none'
+            $number.style.display = 'block'
+        }
+
+        function selectNumber(e) {
+            $number.style.display = 'none'
+            $gameScreen.style.display = 'block'
+        }
+
+
+        function gameStart() {
+            
+        }
+        
+        let currentImageIndex = 0;
+
+
+        function next() {
+            currentImageIndex = (currentImageIndex -1 + images.length) % images.length
+            $currentImage.src = images[currentImageIndex];
+        }
+
+        $sportBtn.addEventListener('click', selectSubject);
+        $numberBtn.addEventListener('click', selectNumber);
+
+
+
+    </script>
+</body>
+</html>
