@@ -26,7 +26,7 @@
         <div class="gameScreen">
             <div>gameScreen</div>
             <img class="currentImage" src="sportImage.jpg" alt="image">
-            <button>next</button>
+            <button class ="next">next</button>
         </div>
     </div>
 
@@ -38,7 +38,10 @@
         const $gameScreen = document.querySelector(".gameScreen");
         const $currentImage = document.querySelector(".currentImage")
 
-        const images = ['./iamges/sportPlayers/김연경.jpg','./iamges/sportPlayers/김하성.jpg','./iamges/sportPlayers/박세리.jpg']
+        //테스트 버튼
+        const $next = document.querySelector(".next");
+
+        const images = ['./images/sportPlayers/김연경.jpg','./images/sportPlayers/김하성.jpg','./images/sportPlayers/박세리.jpg']
 
         $number.style.display = 'none'
         $gameScreen.style.display = 'none'
@@ -58,17 +61,22 @@
         function gameStart() {
             
         }
-        
+
         let currentImageIndex = 0;
 
 
         function next() {
             currentImageIndex = (currentImageIndex -1 + images.length) % images.length
             $currentImage.src = images[currentImageIndex];
+            console.log($currentImage)
         }
+
+        //C:\Users\JRG\Desktop\js_practice_projects\인물맞추기게임\images\sportPlayers\박세리.jpg
 
         $sportBtn.addEventListener('click', selectSubject);
         $numberBtn.addEventListener('click', selectNumber);
+        $next.addEventListener('click',next);
+
 
 
 
