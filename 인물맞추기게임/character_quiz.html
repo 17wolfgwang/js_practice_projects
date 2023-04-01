@@ -25,7 +25,8 @@
         </div>
         <div class="gameScreen">
             <div>gameScreen</div>
-            <img class="currentImage" src="sportImage.jpg" alt="image">
+            <img class="currentImage" src="" alt="image">
+            <input class="answer" type="text"/>
             <button class ="next">next</button>
         </div>
     </div>
@@ -38,47 +39,59 @@
         const $gameScreen = document.querySelector(".gameScreen");
         const $currentImage = document.querySelector(".currentImage")
 
-        //테스트 버튼
+        const $answer = document.querySelector(".answer");
+        //button for test
         const $next = document.querySelector(".next");
+
+        let currentImageIndex = 0;
 
         const images = ['./images/sportPlayers/김연경.jpg','./images/sportPlayers/김하성.jpg','./images/sportPlayers/박세리.jpg']
 
         $number.style.display = 'none'
         $gameScreen.style.display = 'none'
 
-        // const $button = document.querySelector()
+        // First screen : choose subject
         function selectSubject(e) {
             $subject.style.display = 'none'
             $number.style.display = 'block'
         }
 
+        // Second screen : enter number of players(it goes ..)
+
         function selectNumber(e) {
             $number.style.display = 'none'
             $gameScreen.style.display = 'block'
+            gameStart();
         }
 
 
+        // Third screen : timer for preparing game.
         function gameStart() {
-            
-        }
-
-        let currentImageIndex = 0;
-
-
-        function next() {
-            currentImageIndex = (currentImageIndex -1 + images.length) % images.length
             $currentImage.src = images[currentImageIndex];
-            console.log($currentImage)
+            next()
+            // console.log(currentImageIndex)
         }
 
-        //C:\Users\JRG\Desktop\js_practice_projects\인물맞추기게임\images\sportPlayers\박세리.jpg
+        
+
+        // Third screen : enter answer and start game again with next photo.
+        function next() {
+            let name = $answer.value;
+            // $currentImage.src = images[currentImageIndex];
+            if(images[currentImageIndex] === `./images/sportPlayers/${name}.jpg`) {
+                console.log('correct!!');
+                // console.log(images[currentImageIndex])
+                // console.log(`./images/sportPlayers/${name}.jpg`)
+                currentImageIndex = (currentImageIndex -1 + images.length) % images.length
+                $currentImage.src = images[currentImageIndex];
+            } else {
+                console.log('fail!!!')
+            }
+        }
 
         $sportBtn.addEventListener('click', selectSubject);
         $numberBtn.addEventListener('click', selectNumber);
-        $next.addEventListener('click',next);
-
-
-
+        $next.addEventListener('click',gameStart);
 
     </script>
 </body>
