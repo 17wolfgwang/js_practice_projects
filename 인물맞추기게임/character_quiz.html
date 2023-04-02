@@ -19,7 +19,7 @@
             <form>
                 <div>플레이어 수를 입력하세요.(한바퀴를 돕니다.)</div>
                 <input class="numberInput"/>
-                <input type="button" class="numberBtn" value="enter"/>
+                <button class="numberBtn">enter</button>
             </form>
             
         </div>
@@ -27,7 +27,6 @@
             <div>gameScreen</div>
             <img class="currentImage" src="" alt="image">
             <input class="answer" type="text"/>
-            <button class ="next">next</button>
         </div>
     </div>
 
@@ -39,6 +38,7 @@
         const $gameScreen = document.querySelector(".gameScreen");
         const $currentImage = document.querySelector(".currentImage")
 
+        const $numberInput = document.querySelector(".numberInput");
         const $answer = document.querySelector(".answer");
         //button for test
         const $next = document.querySelector(".next");
@@ -57,8 +57,9 @@
         }
 
         // Second screen : enter number of players(it goes ..)
-
-        function selectNumber(e) {
+        function enterNumber(e) {
+            e.preventDefault();
+            let playerNumber = $numberInput.value;
             $number.style.display = 'none'
             $gameScreen.style.display = 'block'
             gameStart();
@@ -68,30 +69,28 @@
         // Third screen : timer for preparing game.
         function gameStart() {
             $currentImage.src = images[currentImageIndex];
-            next()
+            enter()
             // console.log(currentImageIndex)
         }
 
-        
-
         // Third screen : enter answer and start game again with next photo.
-        function next() {
-            let name = $answer.value;
-            // $currentImage.src = images[currentImageIndex];
-            if(images[currentImageIndex] === `./images/sportPlayers/${name}.jpg`) {
-                console.log('correct!!');
-                // console.log(images[currentImageIndex])
-                // console.log(`./images/sportPlayers/${name}.jpg`)
-                currentImageIndex = (currentImageIndex -1 + images.length) % images.length
-                $currentImage.src = images[currentImageIndex];
-            } else {
-                console.log('fail!!!')
-            }
+        function enter(e) {
+            // Use logical operator(&&) to prevent error cause of undefined.
+            if(e && e.key === "Enter") {
+                if(images[currentImageIndex] === `./images/sportPlayers/${$answer.value}.jpg`) {
+                    // console.log('correct!')
+                    currentImageIndex = (currentImageIndex -1 + images.length) % images.length
+                    $currentImage.src = images[currentImageIndex];
+                    $answer.value = "";
+                } else {
+                    console.log('wrong!')
+                }
+            } else return;
         }
-
+        
         $sportBtn.addEventListener('click', selectSubject);
-        $numberBtn.addEventListener('click', selectNumber);
-        $next.addEventListener('click',gameStart);
+        $numberBtn.addEventListener('click', enterNumber);
+        $answer.addEventListener('keydown', enter)
 
     </script>
 </body>
