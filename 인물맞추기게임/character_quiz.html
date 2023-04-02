@@ -9,13 +9,13 @@
 </head>
 <body>
     <div class="screen">
-        <div class="subject">
+        <div class="subjectSection">
             <form>
                 <div>출제 주제를 선택해주세요</div>
-                <input type="button" class="sportBtn" value="sport player"/>
+                <button class="subjectBtn" value="sportPlayers">sportPlayers</button>
             </form>
         </div>
-        <div class="number">
+        <div class="numberSection">
             <form>
                 <div>플레이어 수를 입력하세요.(한바퀴를 돕니다.)</div>
                 <input class="numberInput"/>
@@ -23,7 +23,7 @@
             </form>
             
         </div>
-        <div class="gameScreen">
+        <div class="gameScreenSection">
             <div>gameScreen</div>
             <img class="currentImage" src="" alt="image">
             <input class="answer" type="text"/>
@@ -31,13 +31,12 @@
     </div>
 
     <script>
-        const $subject = document.querySelector(".subject");
-        const $sportBtn = document.querySelector(".sportBtn");
-        const $number = document.querySelector(".number");
+        const $subjectSection = document.querySelector(".subjectSection");
+        const $subjectBtns = document.querySelectorAll(".subjectBtn");
+        const $numberSection = document.querySelector(".numberSection");
         const $numberBtn = document.querySelector(".numberBtn")
-        const $gameScreen = document.querySelector(".gameScreen");
+        const $gameScreenSection = document.querySelector(".gameScreenSection");
         const $currentImage = document.querySelector(".currentImage")
-
         const $numberInput = document.querySelector(".numberInput");
         const $answer = document.querySelector(".answer");
         //button for test
@@ -47,21 +46,40 @@
 
         const images = ['./images/sportPlayers/김연경.jpg','./images/sportPlayers/김하성.jpg','./images/sportPlayers/박세리.jpg']
 
-        $number.style.display = 'none'
-        $gameScreen.style.display = 'none'
+        $numberSection.style.display = 'none'
+        $gameScreenSection.style.display = 'none'
 
+        let subjectName = '';
+        let imageFiles = '';
         // First screen : choose subject
-        function selectSubject(e) {
-            $subject.style.display = 'none'
-            $number.style.display = 'block'
-        }
+        $subjectBtns.forEach(subjectBtn => {
+            subjectBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                $subjectSection.style.display = 'none'
+                $numberSection.style.display = 'block'
+                subjectName = this.value;
+                // call local file based on chosen subject name with fetch API
+                const folderPath = `./images/${subjectName}`;
+                fetch(folderPath)
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, "text/html");
+                    const imageElements = doc.querySelectorAll('a[href$=".jpg"], a[href$=".jpeg"], a[href$=".png"], a[href$=".gif"]');
+                    const imageFilesResult = Array.from(imageElements).map(element => element.textContent.trim());
+                    imageFiles = [...imageFilesResult]
+                })
+                .catch(error => console.log(error));
+            })
+        })
 
         // Second screen : enter number of players(it goes ..)
         function enterNumber(e) {
             e.preventDefault();
-            let playerNumber = $numberInput.value;
-            $number.style.display = 'none'
-            $gameScreen.style.display = 'block'
+            let questionNumber = $numberInput.value * 2 -1;
+            console.log(questionNumber);
+            $numberSection.style.display = 'none'
+            $gameScreenSection.style.display = 'block'
             gameStart();
         }
 
@@ -84,11 +102,12 @@
                     $answer.value = "";
                 } else {
                     console.log('wrong!')
+                    $answer.value = "";
                 }
             } else return;
         }
         
-        $sportBtn.addEventListener('click', selectSubject);
+        // $sportBtn.addEventListener('click', selectSubject);
         $numberBtn.addEventListener('click', enterNumber);
         $answer.addEventListener('keydown', enter)
 
