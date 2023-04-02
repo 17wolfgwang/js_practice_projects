@@ -42,8 +42,6 @@
         //button for test
         const $next = document.querySelector(".next");
 
-        let currentImageIndex = 0;
-
         const images = ['./images/sportPlayers/김연경.jpg','./images/sportPlayers/김하성.jpg','./images/sportPlayers/박세리.jpg']
 
         $numberSection.style.display = 'none'
@@ -66,7 +64,7 @@
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(html, "text/html");
                     const imageElements = doc.querySelectorAll('a[href$=".jpg"], a[href$=".jpeg"], a[href$=".png"], a[href$=".gif"]');
-                    const imageFilesResult = Array.from(imageElements).map(element => element.textContent.trim());
+                    const imageFilesResult = Array.from(imageElements).map(element => element.textContent.trim().split(/(\d+)/)[0]);
                     imageFiles = [...imageFilesResult]
                 })
                 .catch(error => console.log(error));
@@ -74,32 +72,39 @@
         })
 
         // Second screen : enter number of players(it goes ..)
+        let questionNumber = '';
         function enterNumber(e) {
             e.preventDefault();
-            let questionNumber = $numberInput.value * 2 -1;
-            console.log(questionNumber);
+            questionNumber = $numberInput.value * 2 -1;
             $numberSection.style.display = 'none'
             $gameScreenSection.style.display = 'block'
             gameStart();
         }
 
-
         // Third screen : timer for preparing game.
+        let photoIndex = 0;
+        let randomArray = '';
         function gameStart() {
-            $currentImage.src = images[currentImageIndex];
+            // create random array based on number of photo
+            const array = Array(questionNumber).fill().map((v,i) => i);
+            randomArray = array.sort(()=> Math.random() -0.5);
+            console.log(questionNumber);
+            console.log(randomArray);
+            $currentImage.src = `./images/${subjectName}/${imageFiles[randomArray[0]]}`;
             enter()
-            // console.log(currentImageIndex)
         }
 
         // Third screen : enter answer and start game again with next photo.
         function enter(e) {
+            let correctAnswer = imageFiles[0].split('.')[0];
             // Use logical operator(&&) to prevent error cause of undefined.
             if(e && e.key === "Enter") {
-                if(images[currentImageIndex] === `./images/sportPlayers/${$answer.value}.jpg`) {
-                    // console.log('correct!')
-                    currentImageIndex = (currentImageIndex -1 + images.length) % images.length
-                    $currentImage.src = images[currentImageIndex];
+                if(imageFiles[randomArray[photoIndex]] === `${$answer.value}.jpg`) {
+                    console.log('correct!')
+                    photoIndex++;
+                    $currentImage.src = `./images/${subjectName}/${imageFiles[randomArray[photoIndex]]}`
                     $answer.value = "";
+                    console.log(photoIndex);
                 } else {
                     console.log('wrong!')
                     $answer.value = "";
