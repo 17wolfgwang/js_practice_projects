@@ -6,32 +6,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="character_quiz.css">
+    <!-- 구글 폰트 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dongle&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="screen">
         <div class="subjectSection">
             <form>
-                <div>인물 맞추기 게임(feat.신서유기)</div>
-                <div>
+                <div class="title">인물 맞추기 게임(feat.신서유기)</div>
+                <div class="subTitle">
                     <div>방법은 간단합니다! 팀원들은 릴레이로 인물사진을 보고 3초 안에 그 인물의 이름을 맞추면 됩니다!</div>
                     <div>3초 안에 정답을 맞추지 못하면 그대로 탈락!</div>
                     <div>문제로 출제될 인물 주제를 선택해주세요!</div>
                 </div>
-                <button class="subjectBtn" value="sportPlayers">sportPlayers</button>
-                <button class="subjectBtn" value="koreanActors">koreanActors</button>
+                <div class="btnList">
+                    <button class="subjectBtn" value="sportPlayers">sportPlayers</button>
+                    <button class="subjectBtn" value="koreanActors">koreanActors</button>
+                    <button class="subjectBtn" value="koreanActors">koreanActors</button>
+                    <button class="subjectBtn" value="koreanActors">koreanActors</button>
+                </div>
             </form>
         </div>
         <div class="numberSection">
             <form>
-                <div>플레이어 수를 입력하세요.(릴레이 형식으로 한바퀴 돕니다! 마지막 사람은 한 번!)</div>
+                <div class="subTitle">
+                    <div>플레이어 수를 입력하세요.(2 ~ 5명)</div>
+                    <div>릴레이 형식으로 한바퀴 돕니다! 마지막 사람은 한 번!</div>
+                </div>
                 <input type="number" min="2" max="5" class="numberInput"/>
-                <button class="numberBtn">enter</button>
+                <button class="numberBtn">명</button>
             </form>
-            
+        </div>
+        <div class="prepareSection">
+            <button class="startBtn">게임 시작</button>
         </div>
         <div class="gameScreenSection">
             <div class="timeCountNum"></div>
-            <img class="currentImage" src="" alt="image">
+            <div class="currentImageWrap">
+                <img class="currentImage" src="" alt="image">
+            </div>
             <input class="answer" type="text" autofocus/>
         </div>
     </div>
@@ -40,17 +55,18 @@
         const $subjectSection = document.querySelector(".subjectSection");
         const $subjectBtns = document.querySelectorAll(".subjectBtn");
         const $numberSection = document.querySelector(".numberSection");
-        const $numberBtn = document.querySelector(".numberBtn")
+        const $numberBtn = document.querySelector(".numberBtn");
+        const $prepareSection = document.querySelector(".prepareSection");
+        const $startBtn = document.querySelector(".startBtn");
         const $gameScreenSection = document.querySelector(".gameScreenSection");
         const $currentImage = document.querySelector(".currentImage")
         const $numberInput = document.querySelector(".numberInput");
         const $answer = document.querySelector(".answer");
         const $timeCountNum = document.querySelector(".timeCountNum");
         
-        $numberSection.style.display = 'none'
-        $gameScreenSection.style.display = 'none'
-
- 
+        $numberSection.style.display = 'none';
+        $prepareSection.style.display = 'none';
+        $gameScreenSection.style.display = 'none';
 
         // First screen : choose subject
         let subjectName = '';
@@ -85,19 +101,20 @@
                 alert('2에서 5사이 숫자만 입력해주세요.')
             } else {
                 $numberSection.style.display = 'none'
-                $gameScreenSection.style.display = 'block'
+                $prepareSection.style.display = 'block';
 
                 const questionNumber = $numberInput.value * 2 -1;
                 const array = Array(questionNumber).fill().map((v,i) => i);
                 randomArray = array.sort(()=> Math.random() -0.5);
-                prepareGame();
             }
         }
 
         // Third screen : prepare for game(count 3)
         function prepareGame() {
+            $gameScreenSection.style.display = 'block'
             $currentImage.style.display = 'none';
             $answer.style.display = 'none';
+            $prepareSection.style.display = 'none';
             countDown()
             setTimeout(() => {
                 makeQuestion();
@@ -161,6 +178,7 @@
         
         // $sportBtn.addEventListener('click', selectSubject);
         $numberBtn.addEventListener('click', enterNumber);
+        $startBtn.addEventListener('click',prepareGame)
         $answer.addEventListener('keydown', enter)
 
     </script>
