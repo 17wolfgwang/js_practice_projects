@@ -13,6 +13,7 @@
             <form>
                 <div>출제 주제를 선택해주세요</div>
                 <button class="subjectBtn" value="sportPlayers">sportPlayers</button>
+                <button class="subjectBtn" value="koreanActors">koreanActors</button>
             </form>
         </div>
         <div class="numberSection">
@@ -100,7 +101,7 @@
         }
         
 
-        //Forth screen : game start
+        //Forth screen : quiz start
         let photoIndex = 0;
         let timerld;
         function makeQuestion() {
@@ -135,12 +136,10 @@
             // Use logical operator(&&) to prevent error cause of undefined.
             if(e && e.key === "Enter") {
                 if(imageFiles[randomArray[photoIndex]] === `${$answer.value}.jpg`) {
-                    console.log('correct!')
                     clearTimeout(timerld);
                     checkAnswer()
                     $answer.value = "";
                 } else {
-                    console.log('wrong!')
                     $answer.value = "";
                 }
             } else return;
