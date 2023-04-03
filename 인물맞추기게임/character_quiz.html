@@ -41,11 +41,7 @@
         const $numberInput = document.querySelector(".numberInput");
         const $answer = document.querySelector(".answer");
         const $timeCountNum = document.querySelector(".timeCountNum");
-        //button for test
-        const $next = document.querySelector(".next");
-
-        const images = ['./images/sportPlayers/김연경.jpg','./images/sportPlayers/김하성.jpg','./images/sportPlayers/박세리.jpg']
-
+        
         $numberSection.style.display = 'none'
         $gameScreenSection.style.display = 'none'
 
@@ -77,13 +73,17 @@
         let randomArray;
         function enterNumber(e) {
             e.preventDefault();
-            $numberSection.style.display = 'none'
-            $gameScreenSection.style.display = 'block'
+            if($numberInput.value <2 || $numberInput.value > 5 ){
+                alert('2에서 5사이 숫자만 입력해주세요.')
+            } else {
+                $numberSection.style.display = 'none'
+                $gameScreenSection.style.display = 'block'
 
-            const questionNumber = $numberInput.value * 2 -1;
-            const array = Array(questionNumber).fill().map((v,i) => i);
-            randomArray = array.sort(()=> Math.random() -0.5);
-            makeQuestion();
+                const questionNumber = $numberInput.value * 2 -1;
+                const array = Array(questionNumber).fill().map((v,i) => i);
+                randomArray = array.sort(()=> Math.random() -0.5);
+                makeQuestion();
+            }
         }
 
         // Third screen : timer for preparing game.
@@ -92,12 +92,13 @@
 
         function makeQuestion() {
             // create random array based on number of photo
+            clearInterval(countNum);
             $currentImage.src = `./images/${subjectName}/${imageFiles[randomArray[photoIndex]]}`;
             countDown();
             timerld = setTimeout(()=> {
                 alert('탈락입니다');
                 location.href = 'http://127.0.0.1:5500/%EC%9D%B8%EB%AC%BC%EB%A7%9E%EC%B6%94%EA%B8%B0%EA%B2%8C%EC%9E%84/character_quiz.html';
-            },3000)
+            },4000)
         }
 
         function checkAnswer() {
@@ -130,7 +131,8 @@
 
         let countNum;
         function countDown() {
-            let count = 3;
+            let count = 4;
+            $timeCountNum.textContent = '';
             countNum = setInterval(function() {
                 count--;
                 $timeCountNum.textContent = count;
