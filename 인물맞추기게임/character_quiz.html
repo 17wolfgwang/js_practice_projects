@@ -27,7 +27,7 @@
             <div>gameScreen</div>
             <div class="timeCountNum"></div>
             <img class="currentImage" src="" alt="image">
-            <input class="answer" type="text"/>
+            <input class="answer" type="text" autofocus/>
         </div>
     </div>
 
@@ -45,16 +45,19 @@
         $numberSection.style.display = 'none'
         $gameScreenSection.style.display = 'none'
 
+ 
+
+        // First screen : choose subject
         let subjectName = '';
         let imageFiles = '';
-        // First screen : choose subject
+
         $subjectBtns.forEach(subjectBtn => {
             subjectBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 $subjectSection.style.display = 'none'
                 $numberSection.style.display = 'block'
                 subjectName = this.value;
-                // call local file based on chosen subject name with fetch API
+                // call local image file based on chosen subject name with fetch API
                 const folderPath = `./images/${subjectName}`;
                 fetch(folderPath)
                 .then(response => response.text())
@@ -82,15 +85,28 @@
                 const questionNumber = $numberInput.value * 2 -1;
                 const array = Array(questionNumber).fill().map((v,i) => i);
                 randomArray = array.sort(()=> Math.random() -0.5);
-                makeQuestion();
+                prepareGame();
             }
         }
 
-        // Third screen : timer for preparing game.
+        // Third screen : prepare for game(count 3)
+        function prepareGame() {
+            $currentImage.style.display = 'none';
+            $answer.style.display = 'none';
+            countDown()
+            setTimeout(() => {
+                makeQuestion();
+            },4000)
+        }
+        
+
+        //Forth screen : game start
         let photoIndex = 0;
         let timerld;
-
         function makeQuestion() {
+            $currentImage.style.display = 'block';
+            $answer.style.display = 'block';
+            $answer.focus();
             // create random array based on number of photo
             clearInterval(countNum);
             $currentImage.src = `./images/${subjectName}/${imageFiles[randomArray[photoIndex]]}`;
@@ -101,6 +117,7 @@
             },4000)
         }
 
+        // Check if game if clear or not and show next question
         function checkAnswer() {
                     clearInterval(countNum);
                     if(photoIndex === randomArray.length -1) {
@@ -112,7 +129,7 @@
                     }
         }
 
-        // Third screen : enter answer and start game again with next photo.
+        //Enter answer
         function enter(e) {
             let correctAnswer = imageFiles[0].split('.')[0];
             // Use logical operator(&&) to prevent error cause of undefined.
