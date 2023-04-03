@@ -40,6 +40,7 @@
             </form>
         </div>
         <div class="prepareSection">
+            <div>준비되면 시작버튼을 눌러주세요! 3초 카운트 후 게임이 시작됩니다!</div>
             <button class="startBtn">게임 시작</button>
         </div>
         <div class="gameScreenSection">
@@ -120,7 +121,6 @@
                 makeQuestion();
             },4000)
         }
-        
 
         //Forth screen : quiz start
         let photoIndex = 0;
@@ -166,6 +166,7 @@
             } else return;
         }
 
+        //Show how many second left
         let countNum;
         function countDown() {
             let count = 4;
@@ -175,7 +176,7 @@
                 $timeCountNum.textContent = count;
                 },1000)
         }
-        
+
         // $sportBtn.addEventListener('click', selectSubject);
         $numberBtn.addEventListener('click', enterNumber);
         $startBtn.addEventListener('click',prepareGame)

@@ -10,9 +10,7 @@ body {
     height: 100vh;
     display: flex;
     justify-content: center;
-    /* align-items: center; */
     text-align: center;
-
 }
 
 .screen{
@@ -46,14 +44,6 @@ body {
     width:50px;
 }
 
-/* .gameScreenSection{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    height: 100%;
-} */
-
 .timeCountNum{
     font-size: 80px;
 }
@@ -76,7 +66,8 @@ body {
 
 .answer{
     margin: 0 auto;
-    width: 5vw;
+    width: 9vw;
+    font-size: 55px;
     text-align: center;
     border: none;
     border-bottom: 2px solid black;
