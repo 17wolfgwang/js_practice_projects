@@ -9,11 +9,32 @@
 </head>
 <body>
     <canvas class="canvas"></canvas>
+    <div class="timerSection">
+        <input class="setMinutes" type="number" min="1" max="60"><span class="timeLeft">남은시간 표시할 곳</span><span>분</span>
+        <div class="beforeStartBtnSection">
+            <button class="timerStartBtn">타이머 시작</button>
+            <button>다크모드</button>
+            <button>숫자표시</button>
+        </div>
+        <div class="afterStartBtnSection">
+            <button>타이머 일시정지</button>
+            <button>타이머 다시시작</button>
+            <button>타이머 초기화(정지)</button>
+            <button>다크모드</button>
+            <button>숫자표시</button>
+        </div>
+    </div>
+    <div class="numbersOnClock">
+        12,1,2,3,4,5,6,7,8,9,10,11
+    </div>
     <script>
       const $canvas = document.querySelector(".canvas");
+      const $setMinutes = document.querySelector(".setMinutes");
+      const $timerStartBtn = document.querySelector(".timerStartBtn")
+
       const ctx = $canvas.getContext("2d");
 
-      const lineWidth = 10;
+      const lineWidth = 15;
       const lineColor = 'red';
 
       let lines = []
@@ -45,7 +66,8 @@
             seconds = now.getSeconds();
             
             //실수로 개발자 도구 열었을 때를 대비한 localStorage에 넣어놓을 값.
-            let nowPositionX
+            let nowPositionX;
+            let nowPositionY;
 
             //분침이동로직
             // 시계 바늘 그리기
