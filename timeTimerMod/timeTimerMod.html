@@ -26,32 +26,27 @@
       window.addEventListener("resize", resizeCanvas);
       resizeCanvas();
 
-      let  lastTime=0;
-      function drawClock(timestamp) {
+      let minutes, seconds;
 
-        if(!lastTime) {
-            lastTime = timestamp;
-        }
 
-        const elapsed = timestamp - lastTime;
-        // 화면 지우는 로직
-        // ctx.clearRect(0, 0, $canvas.width, $canvas.height);
+        function drawClock() {
+            // 화면 지우는 로직
+            // ctx.clearRect(0, 0, $canvas.width, $canvas.height);
 
-        // 중심점 구하기
-        const centerX = $canvas.width / 2;
-        const centerY = $canvas.height / 2;
+            // 중심점 구하기
+            const centerX = $canvas.width / 2;
+            const centerY = $canvas.height / 2;
 
-        // 현재 시간 구하기
-        const now = new Date();
+            // 현재 시간 구하기
+            const now = new Date();
 
-        const hours = now.getHours();
-        const minutes = now.getMinutes();
-        const seconds = now.getSeconds();
+            const hours = now.getHours();
+            minutes = now.getMinutes();
+            seconds = now.getSeconds();
+            
+            //실수로 개발자 도구 열었을 때를 대비한 localStorage에 넣어놓을 값.
+            let nowPositionX
 
-        const minuteAngle = ((minutes / 60) * 360) - 90;
-        const secondAngle = ((seconds / 60) * 360) - 90;
-
-        if(elapsed>1000) {
             //분침이동로직
             // 시계 바늘 그리기
             ctx.beginPath();
@@ -59,31 +54,23 @@
             // lineTo >> 원점기준으로 어디로 그릴건지? lineTO한번더 쓰면 그다음은 어디로 그릴건지!
             ctx.lineTo(
                 // sin(k) = b/r일때 b는 y좌표를 나타낸다. b는 즉 r * sin(k). 이때 sin(각도) * r로 하고자 하는 값을 곱해주면 나타내고자 하는 값의 y좌표가 된다.
-                centerX + Math.sin((minutes / 60 + seconds / 3600 - 0.25) * 2 * Math.PI) * 872.5,
-                centerY - Math.cos((minutes / 60 + seconds / 3600 - 0.25) * 2 * Math.PI) * 872.5
+                centerX + Math.sin((minutes / 60 + seconds / 3600 - 0.25) * 2 * Math.PI) * 1000,
+                centerY - Math.cos((minutes / 60 + seconds / 3600 - 0.25) * 2 * Math.PI) * 1000
             );
 
             ctx.lineWidth = lineWidth;
             ctx.strokeStyle = lineColor;
             ctx.stroke();
-            lastTime = timestamp;
-        }
+
         // 다시 그리기
-        requestAnimationFrame(drawClock);
+            setTimeout(drawClock, 1000/60)
       }
 
-      requestAnimationFrame(drawClock);
+      drawClock()
 
       document.addEventListener("visibilitychange", () => {
-        if (document.hidden) {
-            lastTime = performance.now();
-            console.log('안보이지롱~');
-            console.log(document.visibilityState)
-            requestAnimationFrame(drawClock);
-        } else {
-            console.log('보이지롱~');
-            lastTime = performance.now();
-            requestAnimationFrame(drawClock);
+        if (document.visibilityState !== "visible") {
+            console.log(minutes,'분 ' ,seconds,'초')
         }
         });
     </script>
