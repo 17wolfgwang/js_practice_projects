@@ -102,7 +102,7 @@
         if(startAngle >= nowEndAngle) {
             alert('타이머 끝!')
             clearTimeout(intervalDrawing);
-            location.reload();
+            location.reload()
         }
         //For smooth movement
         intervalDrawing =  setTimeout(drawSetTime, 1000/60)
@@ -122,14 +122,15 @@
 
       // Dark Mode
       function darkMode() {
-        $canvas.classList.toggle('darkMode');
+        document.body.classList.toggle('darkMode');
+        $canvas.classList.toggle('transparentMode');
         $timerSection.classList.toggle('portionDarkMode');
         let line = $circle1.children;
         for(let i=0; i< line.length; i++) {
             line[i].classList.toggle('darkMode');
             line[i].classList.toggle('whiteMode');
         }
-        $setMinutes.classList.toggle('portionWhiteMode');
+        $setMinutes.classList.toggle('portionDarkMode');
         $timerStartBtn.classList.toggle('darkMode');
         // $circle1.classList.toggle('darkMode');
         if($circle2.classList.contains('whiteMode')) {
@@ -162,7 +163,6 @@
         }
         circle_1.appendChild(line);
         line.classList.add('darkMode');
-
         }
       }
 

@@ -43,7 +43,7 @@ html, body {
 }
 .setMinutes{
     border-style: none;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid grey;
     width: 250px;
     height: 100px;
     font-size: 70px;
@@ -71,6 +71,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .btnSection{
     display: flex;
+    margin-top: 15px;
 }
 button {
     text-align: center;
@@ -80,14 +81,15 @@ button {
     align-items: center;
     background: none;
     border: none;
-    width: 50px;
-    height: 50px;
-    font-size: 50px;
-    margin: 15px;
+    width: 60px;
+    height: 60px;
+    font-size: 40px;
+    margin: 0 15px;
 }
 
 button:hover {
-    background-color: red;
+    background-color: rgba(255,0,0,0.3);
+    cursor: pointer;
 }
 .canvas {
     position: absolute;
@@ -116,6 +118,9 @@ button:hover {
     color: black;
 }
 
+.transparentMode {
+    background-color: transparent;
+}
 
 /* Show duration */
 /* .graduationSection{
