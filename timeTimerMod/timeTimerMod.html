@@ -98,9 +98,9 @@
         $timeLeft.style.display = 'block';
         $timeLeft.textContent = `${nowMin}m ${nowSec}s`
 
-        console.log(startAngle,nowEndAngle)
+        //Alert finished
         if(startAngle >= nowEndAngle) {
-            alert('타이머 끝!')
+            alert('Time Over!')
             clearTimeout(intervalDrawing);
             location.reload()
         }
@@ -117,10 +117,10 @@
       function resetTimer() {
         location.reload();
       }
-      $circle2.classList.add('whiteMode');
-      $circle3.classList.add('whiteMode');
 
       // Dark Mode
+      $circle2.classList.add('whiteMode');
+      $circle3.classList.add('whiteMode');   
       function darkMode() {
         document.body.classList.toggle('darkMode');
         $canvas.classList.toggle('transparentMode');
@@ -132,7 +132,6 @@
         }
         $setMinutes.classList.toggle('portionDarkMode');
         $timerStartBtn.classList.toggle('darkMode');
-        // $circle1.classList.toggle('darkMode');
         if($circle2.classList.contains('whiteMode')) {
             $circle2.classList.remove("whiteMode");
             $circle2.classList.add('darkMode');
@@ -144,14 +143,15 @@
             $circle3.classList.add("whiteMode");
             $circle3.classList.remove('darkMode');
         }
+        //Change darkmode button
         $darkModeBtn.textContent = ($darkModeBtn.textContent == '🌙')? $darkModeBtn.textContent = '🌞' : $darkModeBtn.textContent = '🌙'
         }
 
+
       // Make clock numerals
-    
       function showClockNumerals() {
         const circle_1 = document.querySelector('.circle1');
-        // 눈금 그리기
+        // draw clock numerals
         for (let i = 0; i < 30; i++) {
         let line = document.createElement('div');
         line.classList.add('line');
