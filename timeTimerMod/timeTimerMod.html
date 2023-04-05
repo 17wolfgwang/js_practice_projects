@@ -47,54 +47,37 @@
       window.addEventListener("resize", resizeCanvas);
       resizeCanvas();
 
-      let minutes, seconds;
 
+      let elapsedSec = 0;
+      function drawSetTime() {
+        ctx.clearRect(0, 0, $canvas.width, $canvas.height);
+        // 1. 시계 원 그리기
+        const centerX = $canvas.width / 2;
+        const centerY = $canvas.height / 2;
+        const radius = 1000;
+        
+        // 2. 입력된 분의 비율 계산
+        const setMinutes = $setMinutes.value;
+        const startAngle = (Math.PI * 3) / 2;
+        const endAngle = (Math.PI * 2 / 60) * setMinutes + startAngle
+        
+        // 3. 시계 원 일부분 채우기
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.arc(centerX, centerY, radius, startAngle, endAngle-elapsedSec, false);
+        ctx.lineTo(centerX, centerY);
+        ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+        ctx.fill();
 
-        function drawClock() {
-            // 화면 지우는 로직
-            // ctx.clearRect(0, 0, $canvas.width, $canvas.height);
+        //Angle value to decrease per minute
+        elapsedSec += 6 * (Math.PI/180) * (1/3600);
 
-            // 중심점 구하기
-            const centerX = $canvas.width / 2;
-            const centerY = $canvas.height / 2;
-
-            // 현재 시간 구하기
-            const now = new Date();
-
-            const hours = now.getHours();
-            minutes = now.getMinutes();
-            seconds = now.getSeconds();
-            
-            //실수로 개발자 도구 열었을 때를 대비한 localStorage에 넣어놓을 값.
-            let nowPositionX;
-            let nowPositionY;
-
-            //분침이동로직
-            // 시계 바늘 그리기
-            ctx.beginPath();
-            ctx.moveTo(centerX, centerY); // 원점 설정(여기서는 centerX, centerY 기준으로)
-            // lineTo >> 원점기준으로 어디로 그릴건지? lineTO한번더 쓰면 그다음은 어디로 그릴건지!
-            ctx.lineTo(
-                // sin(k) = b/r일때 b는 y좌표를 나타낸다. b는 즉 r * sin(k). 이때 sin(각도) * r로 하고자 하는 값을 곱해주면 나타내고자 하는 값의 y좌표가 된다.
-                centerX + Math.sin((minutes / 60 + seconds / 3600 - 0.25) * 2 * Math.PI) * 1000,
-                centerY - Math.cos((minutes / 60 + seconds / 3600 - 0.25) * 2 * Math.PI) * 1000
-            );
-
-            ctx.lineWidth = lineWidth;
-            ctx.strokeStyle = lineColor;
-            ctx.stroke();
-
-        // 다시 그리기
-            setTimeout(drawClock, 1000/60)
+        //For smooth movement
+        setTimeout(drawSetTime, 1000/60)
       }
 
-      drawClock()
+      $timerStartBtn.addEventListener('click', drawSetTime);
 
-      document.addEventListener("visibilitychange", () => {
-        if (document.visibilityState !== "visible") {
-            console.log(minutes,'분 ' ,seconds,'초')
-        }
-        });
     </script>
     
 </body>
