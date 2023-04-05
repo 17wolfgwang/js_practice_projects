@@ -8,13 +8,32 @@
     <link rel="stylesheet" href="timeTimerMod.css">
 </head>
 <body>
+    <div class="graduationSection">
+        <div class="circle1"></div>
+        <div class="circle2"></div>
+        <div class="circle3"></div>
+    </div>
+    <div class="numberOnClock">
+        <div class="number0">0</div>
+        <div class="number5">5</div>
+        <div class="number10">10</div>
+        <div class="number15">15</div>
+        <div class="number20">20</div>
+        <div class="number25">25</div>
+        <div class="number30">30</div>
+        <div class="number35">35</div>
+        <div class="number40">40</div>
+        <div class="number45">45</div>
+        <div class="number50">50</div>
+        <div class="number55">55</div>
+    </div>
     <canvas class="canvas"></canvas>
     <div class="timerSection">
         <input class="setMinutes" type="number" min="1" max="60"><span class="timeLeft">남은시간 표시할 곳</span><span>분</span>
         <div class="beforeStartBtnSection">
             <button class="timerStartBtn">타이머 시작</button>
             <button class="darkModeBtn">다크모드</button>
-            <button>숫자표시</button>
+            <button class="showNumBtn">숫자표시</button>
         </div>
         <div class="afterStartBtnSection">
             <button>타이머 일시정지</button>
@@ -22,14 +41,14 @@
             <button>타이머 초기화(정지)</button>
         </div>
     </div>
-    <div class="numbersOnClock">
-        12,1,2,3,4,5,6,7,8,9,10,11
-    </div>
+
     <script>
+        console.log(window.innerWidth);
       const $canvas = document.querySelector(".canvas");
       const $setMinutes = document.querySelector(".setMinutes");
       const $timerStartBtn = document.querySelector(".timerStartBtn")
       const $darkModeBtn = document.querySelector(".darkModeBtn");
+      const $showNumBtn = document.querySelector(".showNumBtn");
 
       const ctx = $canvas.getContext("2d");
 
@@ -53,7 +72,7 @@
         // 1. 시계 원 그리기
         const centerX = $canvas.width / 2;
         const centerY = $canvas.height / 2;
-        const radius = 1000;
+        const radius = 1100;
         
         // 2. 입력된 분의 비율 계산
         const setMinutes = $setMinutes.value;
@@ -65,14 +84,14 @@
         ctx.moveTo(centerX, centerY);
         ctx.arc(centerX, centerY, radius, startAngle, endAngle-elapsedSec, false);
         ctx.lineTo(centerX, centerY);
-        ctx.fillStyle = 'rgba(255, 0, 0, 1)';
+        ctx.fillStyle = 'rgba(255, 0, 0, 0.7)';
         ctx.fill();
 
         //Angle value to decrease per minute
         elapsedSec += 6 * (Math.PI/180) * (1/3600);
 
         //For smooth movement
-        //let intervalDrawing =  setTimeout(drawSetTime, 1000/60)
+        let intervalDrawing =  setTimeout(drawSetTime, 1000/60)
       }
 
       //정지 -> 리셋하고 같나?
@@ -93,11 +112,25 @@
 
       //시계 숫자 표시
       function displayNumber() {
+        const circle_1 = document.querySelector('.circle1');
 
+        // 눈금 그리기
+        for (let i = 0; i < 30; i++) {
+        const line = document.createElement('div');
+        line.classList.add('line');
+        line.style.transform = `rotate(${6 * i}deg)`;
+        if (i % 5) {
+            line.classList.add('thin');
+        } else {
+            line.classList.add('thick');
+        }
+        circle_1.appendChild(line);
+        }
       }
 
       $timerStartBtn.addEventListener('click', drawSetTime);
       $darkModeBtn.addEventListener('click', darkMode);
+      $showNumBtn.addEventListener('click',displayNumber);
 
     </script>
     

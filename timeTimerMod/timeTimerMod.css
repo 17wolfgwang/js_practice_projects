@@ -8,23 +8,101 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    overflow: hidden;
+    /* overflow: hidden; */
+    position: relative;
 }
 .timerSection {
     position: absolute;
     top: 50%;
     left: 50%;
-    z-index: 1;
-    width: 500px;
-    height: 500px;
+    width: 200px;
+    height: 100px;
     background-color: white;
+    z-index: 11;
+    /* display: none; */
+    
 }
 .canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
+    z-index: 10;
+    /* display: none; */
     /* background-color: black; */
 }
 
 .darkMode {
     background-color: black;
 }
+
+/*시계 숫자*/
+.number0 {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    font-size: 5em;
+}
+
+.number5 {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    /* justify-content: right; */
+    /* align-items:center; */
+    font-size: 5em;
+}
+
+/* Show duration */
+.graduationSection{
+    /* position: relative; */
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.circle1 .line {
+    position: absolute;
+    top: 50%;
+    left: -10%;
+    width: 119vw;
+    height: 100vh;
+    background-color: black;
+  }
+  
+  .circle1 .line.thick {
+    top: calc(50% - 2px);
+    height: 4px;
+    /* z-index: 1; */
+  }
+  
+  .circle1 .line.thin {
+    top: calc(50% - 0.5px);
+    height: 1px;
+  }
+
+  .circle2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 95%;
+    height: 95%;
+    background-color: #ffffff;
+    transform: translate(-50%, -50%);
+
+  }
+  
+  .circle3 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 95%;
+    height: 95%;
+    background-color: #ffffff;
+    transform: translate(-50%, -50%);
+    /* z-index: 2; */
+  }
