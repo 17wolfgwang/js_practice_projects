@@ -33,10 +33,9 @@
         <div class="beforeStartBtnSection">
             <button class="timerStartBtn">타이머 시작</button>
             <button class="darkModeBtn">다크모드</button>
-            <button class="showNumBtn">숫자표시</button>
         </div>
         <div class="afterStartBtnSection">
-            <button>타이머 일시정지</button>
+            <button class="pauseTimer">타이머 일시정지</button>
             <button>타이머 다시시작</button>
             <button>타이머 초기화(정지)</button>
         </div>
@@ -49,6 +48,9 @@
       const $darkModeBtn = document.querySelector(".darkModeBtn");
       const $showNumBtn = document.querySelector(".showNumBtn");
       const $timeLeft = document.querySelector(".timeLeft");
+      const $pauseTimer = document.querySelector(".pauseTimer");
+
+      $timeLeft.style.display = 'none';
 
       const ctx = $canvas.getContext("2d");
 
@@ -69,7 +71,9 @@
       let elapsedSec = 0;
       let nowMin;
       let nowSec;
+      let intervalDrawing;
       function drawSetTime() {
+        $setMinutes.style.display = 'none';
         ctx.clearRect(0, 0, $canvas.width, $canvas.height);
         // 1. 시계 원 그리기
         const centerX = $canvas.width / 2;
@@ -100,16 +104,16 @@
         //Angle value to decrease per minute
         elapsedSec += 6 * (Math.PI/180) * (1/3600);
 
+        $timeLeft.style.display = 'block';
         $timeLeft.textContent = `${nowMin}분 ${nowSec}초`
 
         //For smooth movement
-        let intervalDrawing =  setTimeout(drawSetTime, 1000/60)
+        intervalDrawing =  setTimeout(drawSetTime, 1000/60)
       }
 
-      //정지 -> 리셋하고 같나?
-      function stopTimer() {
+      //Pause timer
+      function pauseTimer() {
         clearTimeout(intervalDrawing);
-        resetTimer();
       }
       // 타이머 리셋
       function resetTimer() {
@@ -143,6 +147,7 @@
 
       $timerStartBtn.addEventListener('click', drawSetTime);
       $darkModeBtn.addEventListener('click', darkMode);
+      $pauseTimer.addEventListener('click', pauseTimer);
 
 
     </script>
