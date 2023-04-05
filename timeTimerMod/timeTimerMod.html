@@ -14,20 +14,27 @@
         <div class="circle3"></div>
     </div>
     <canvas class="canvas"></canvas>
+    
     <div class="timerSection">
-        <input class="setMinutes" type="number" min="1" max="60"><span class="timeLeft">남은시간표시</span>
-        <div class="beforeStartBtnSection">
-            <button class="timerStartBtn">타이머 시작</button>
-            <button class="darkModeBtn">다크모드</button>
-        </div>
-        <div class="afterStartBtnSection">
-            <button class="pauseTimer">타이머 일시정지</button>
-            <button class="resetTimer">타이머 초기화(정지)</button>
+        <div class="title">TIME TIMER MOD</div>
+        <div class="subTitle">( known as google clock )</div>
+        <div class="explanation">Set time as minutes(in 1~60) and press 'play' button.</div>
+        <input class="setMinutes" type="number" min="1" max="60" autofocus><span class="timeLeft">남은시간표시</span>
+        <div class="btnSection">
+            <button class="timerStartBtn">▶</button>
+            <button class="darkModeBtn">🌙</button>
+            <button class="pauseTimer">⏸︎</button>
+            <button class="resetTimer">⏹️</button>
         </div>
     </div>
 
     <script>
       const $canvas = document.querySelector(".canvas");
+      const $circle1 = document.querySelector(".circle1");
+      const $circle2 = document.querySelector(".circle2");
+      const $circle3 = document.querySelector(".circle3");
+      const $timerSection = document.querySelector(".timerSection");
+      const $btnSection = document.querySelector(".btnSection");
       const $setMinutes = document.querySelector(".setMinutes");
       const $timerStartBtn = document.querySelector(".timerStartBtn")
       const $darkModeBtn = document.querySelector(".darkModeBtn");
@@ -46,6 +53,14 @@
       }
       window.addEventListener("resize", resizeCanvas);
       resizeCanvas();
+      function checkMinuteNumber() {
+        if($setMinutes.value < 1 || $setMinutes.value > 60) {
+            alert('Please enter a number between 1 and 60')
+            location.reload()
+        } else {
+            drawSetTime()
+        }
+      }
 
       // Draw red zone for left time area 
       let elapsedSec = 0, intervalDrawing;
@@ -81,8 +96,14 @@
         elapsedSec += 6 * (Math.PI/180) * (1/3600);
 
         $timeLeft.style.display = 'block';
-        $timeLeft.textContent = `${nowMin}분 ${nowSec}초`
+        $timeLeft.textContent = `${nowMin}m ${nowSec}s`
 
+        console.log(startAngle,nowEndAngle)
+        if(startAngle >= nowEndAngle) {
+            alert('타이머 끝!')
+            clearTimeout(intervalDrawing);
+            location.reload();
+        }
         //For smooth movement
         intervalDrawing =  setTimeout(drawSetTime, 1000/60)
       }
@@ -96,19 +117,42 @@
       function resetTimer() {
         location.reload();
       }
+      $circle2.classList.add('whiteMode');
+      $circle3.classList.add('whiteMode');
 
       // Dark Mode
       function darkMode() {
         $canvas.classList.toggle('darkMode');
-        $darkModeBtn.textContent = ($darkModeBtn.textContent == '다크모드')? $darkModeBtn.textContent = '라이트모드' : $darkModeBtn.textContent = '다크모드'
-    }
+        $timerSection.classList.toggle('portionDarkMode');
+        let line = $circle1.children;
+        for(let i=0; i< line.length; i++) {
+            line[i].classList.toggle('darkMode');
+            line[i].classList.toggle('whiteMode');
+        }
+        $setMinutes.classList.toggle('portionWhiteMode');
+        $timerStartBtn.classList.toggle('darkMode');
+        // $circle1.classList.toggle('darkMode');
+        if($circle2.classList.contains('whiteMode')) {
+            $circle2.classList.remove("whiteMode");
+            $circle2.classList.add('darkMode');
+            $circle3.classList.remove("whiteMode");
+            $circle3.classList.add('darkMode');
+        } else {
+            $circle2.classList.add("whiteMode");
+            $circle2.classList.remove('darkMode');
+            $circle3.classList.add("whiteMode");
+            $circle3.classList.remove('darkMode');
+        }
+        $darkModeBtn.textContent = ($darkModeBtn.textContent == '🌙')? $darkModeBtn.textContent = '🌞' : $darkModeBtn.textContent = '🌙'
+        }
 
       // Make clock numerals
+    
       function showClockNumerals() {
         const circle_1 = document.querySelector('.circle1');
         // 눈금 그리기
         for (let i = 0; i < 30; i++) {
-        const line = document.createElement('div');
+        let line = document.createElement('div');
         line.classList.add('line');
         line.style.transform = `rotate(${6 * i}deg)`;
         if (i % 5) {
@@ -117,12 +161,14 @@
             line.classList.add('thick');
         }
         circle_1.appendChild(line);
+        line.classList.add('darkMode');
+
         }
       }
 
       showClockNumerals();
 
-      $timerStartBtn.addEventListener('click', drawSetTime);
+      $timerStartBtn.addEventListener('click', checkMinuteNumber);
       $darkModeBtn.addEventListener('click', darkMode);
       $pauseTimer.addEventListener('click', pauseTimer);
       $resetTimer.addEventListener('click', resetTimer);
