@@ -13,20 +13,6 @@
         <div class="circle2"></div>
         <div class="circle3"></div>
     </div>
-    <div class="numberOnClock">
-        <div class="number0">0</div>
-        <div class="number5">5</div>
-        <div class="number10">10</div>
-        <div class="number15">15</div>
-        <div class="number20">20</div>
-        <div class="number25">25</div>
-        <div class="number30">30</div>
-        <div class="number35">35</div>
-        <div class="number40">40</div>
-        <div class="number45">45</div>
-        <div class="number50">50</div>
-        <div class="number55">55</div>
-    </div>
     <canvas class="canvas"></canvas>
     <div class="timerSection">
         <input class="setMinutes" type="number" min="1" max="60"><span class="timeLeft">남은시간표시</span>
@@ -36,8 +22,7 @@
         </div>
         <div class="afterStartBtnSection">
             <button class="pauseTimer">타이머 일시정지</button>
-            <button>타이머 다시시작</button>
-            <button>타이머 초기화(정지)</button>
+            <button class="resetTimer">타이머 초기화(정지)</button>
         </div>
     </div>
 
@@ -49,43 +34,35 @@
       const $showNumBtn = document.querySelector(".showNumBtn");
       const $timeLeft = document.querySelector(".timeLeft");
       const $pauseTimer = document.querySelector(".pauseTimer");
+      const $resetTimer = document.querySelector(".resetTimer");
+      const ctx = $canvas.getContext("2d");
 
       $timeLeft.style.display = 'none';
 
-      const ctx = $canvas.getContext("2d");
-
-      const lineWidth = 15;
-      const lineColor = 'red';
-
-      let lines = []
-
+      // resize Canvas to window size
       function resizeCanvas() {
         $canvas.width = window.innerWidth;
         $canvas.height = window.innerHeight;
       }
-
       window.addEventListener("resize", resizeCanvas);
       resizeCanvas();
 
-
-      let elapsedSec = 0;
-      let nowMin;
-      let nowSec;
-      let intervalDrawing;
+      // Draw red zone for left time area 
+      let elapsedSec = 0, intervalDrawing;
       function drawSetTime() {
         $setMinutes.style.display = 'none';
         ctx.clearRect(0, 0, $canvas.width, $canvas.height);
-        // 1. 시계 원 그리기
+        // Draw clock circle
         const centerX = $canvas.width / 2;
         const centerY = $canvas.height / 2;
         const radius = 1100;
         
-        // 2. 입력된 분의 비율 계산
+        // Calculate ratio based on input minute
         const setMinutes = $setMinutes.value;
         const startAngle = (Math.PI * 3) / 2;
         const endAngle = (Math.PI * 2 / 60) * setMinutes + startAngle
         
-        // 3. 시계 원 일부분 채우기
+        // Filling a portion of a clock
         ctx.beginPath();
         ctx.moveTo(centerX, centerY);
         ctx.arc(centerX, centerY, radius, startAngle, endAngle-elapsedSec, false);
@@ -97,9 +74,8 @@
         const diff = nowEndAngle- startAngle;
         const nowAngle = diff * (180/Math.PI);
         const nowTotalSec = nowAngle.toFixed(2)/0.1 + 1;
-        nowMin = Math.floor(nowTotalSec/60);
-        nowSec = Math.floor(nowTotalSec%60)
-        console.log(nowTotalSec);
+        const nowMin = Math.floor(nowTotalSec/60);
+        const nowSec = Math.floor(nowTotalSec%60);
 
         //Angle value to decrease per minute
         elapsedSec += 6 * (Math.PI/180) * (1/3600);
@@ -111,25 +87,25 @@
         intervalDrawing =  setTimeout(drawSetTime, 1000/60)
       }
 
-      //Pause timer
+      // Pause Timer
       function pauseTimer() {
         clearTimeout(intervalDrawing);
       }
-      // 타이머 리셋
+
+      // Reset Timer
       function resetTimer() {
-        
+        location.reload();
       }
 
-      //다크모드
+      // Dark Mode
       function darkMode() {
         $canvas.classList.toggle('darkMode');
         $darkModeBtn.textContent = ($darkModeBtn.textContent == '다크모드')? $darkModeBtn.textContent = '라이트모드' : $darkModeBtn.textContent = '다크모드'
     }
 
-      //시계 숫자,눈금 표시
-      function displayNumber() {
+      // Make clock numerals
+      function showClockNumerals() {
         const circle_1 = document.querySelector('.circle1');
-
         // 눈금 그리기
         for (let i = 0; i < 30; i++) {
         const line = document.createElement('div');
@@ -143,14 +119,13 @@
         circle_1.appendChild(line);
         }
       }
-      displayNumber();
+
+      showClockNumerals();
 
       $timerStartBtn.addEventListener('click', drawSetTime);
       $darkModeBtn.addEventListener('click', darkMode);
       $pauseTimer.addEventListener('click', pauseTimer);
-
-
+      $resetTimer.addEventListener('click', resetTimer);
     </script>
-    
 </body>
 </html>
