@@ -13,15 +13,13 @@
         <input class="setMinutes" type="number" min="1" max="60"><span class="timeLeft">남은시간 표시할 곳</span><span>분</span>
         <div class="beforeStartBtnSection">
             <button class="timerStartBtn">타이머 시작</button>
-            <button>다크모드</button>
+            <button class="darkModeBtn">다크모드</button>
             <button>숫자표시</button>
         </div>
         <div class="afterStartBtnSection">
             <button>타이머 일시정지</button>
             <button>타이머 다시시작</button>
             <button>타이머 초기화(정지)</button>
-            <button>다크모드</button>
-            <button>숫자표시</button>
         </div>
     </div>
     <div class="numbersOnClock">
@@ -31,6 +29,7 @@
       const $canvas = document.querySelector(".canvas");
       const $setMinutes = document.querySelector(".setMinutes");
       const $timerStartBtn = document.querySelector(".timerStartBtn")
+      const $darkModeBtn = document.querySelector(".darkModeBtn");
 
       const ctx = $canvas.getContext("2d");
 
@@ -66,17 +65,39 @@
         ctx.moveTo(centerX, centerY);
         ctx.arc(centerX, centerY, radius, startAngle, endAngle-elapsedSec, false);
         ctx.lineTo(centerX, centerY);
-        ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+        ctx.fillStyle = 'rgba(255, 0, 0, 1)';
         ctx.fill();
 
         //Angle value to decrease per minute
         elapsedSec += 6 * (Math.PI/180) * (1/3600);
 
         //For smooth movement
-        setTimeout(drawSetTime, 1000/60)
+        //let intervalDrawing =  setTimeout(drawSetTime, 1000/60)
+      }
+
+      //정지 -> 리셋하고 같나?
+      function stopTimer() {
+        clearTimeout(intervalDrawing);
+        resetTimer();
+      }
+      // 타이머 리셋
+      function resetTimer() {
+        
+      }
+
+      //다크모드
+      function darkMode() {
+        $canvas.classList.toggle('darkMode');
+        $darkModeBtn.textContent = ($darkModeBtn.textContent == '다크모드')? $darkModeBtn.textContent = '라이트모드' : $darkModeBtn.textContent = '다크모드'
+    }
+
+      //시계 숫자 표시
+      function displayNumber() {
+
       }
 
       $timerStartBtn.addEventListener('click', drawSetTime);
+      $darkModeBtn.addEventListener('click', darkMode);
 
     </script>
     
