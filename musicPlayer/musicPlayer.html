@@ -19,26 +19,24 @@
             <button type="button" onclick="newVideo();">newVIDEO</button>
         </div>
     </div>
-
-        <div class="container">
-            <div draggable="true" class="box">
-                <div>logo</div>
-                <div>title</div>
-                <div>length</div>
-            </div>
-            <div draggable="true" class="box">B</div>
-            <div draggable="true" class="box">C</div>
-            <div draggable="true" class="box">D</div>
-            <div draggable="true" class="box">E</div>
-            <div draggable="true" class="box">F</div>
-            <div draggable="true" class="box">G</div>
-            <div draggable="true" class="box">H</div>
-            <div class="box" onclick="addBox()">+</div>
+    <div class="container">
+        <div draggable="true" class="box">
+            <div>logo</div>
+            <div>title</div>
         </div>
-        <button class="now">hoooooooooooooooooo</button>
+        <div draggable="true" class="box">B</div>
+        <div draggable="true" class="box">C</div>
+        <div draggable="true" class="box">D</div>
+        <div draggable="true" class="box">E</div>
+        <div draggable="true" class="box">F</div>
+        <div draggable="true" class="box">G</div>
+        <div draggable="true" class="box">H</div>
+        <div class="box addbox" onclick="addBox()">+</div>
+    </div>
+    <button class="now">hoooooooooooooooooo</button>
     <script type="text/javascript" id="www-widgetapi-script" src="https://s.ytimg.com/yts/jsbin/www-widgetapi-vflS50iB-/www-widgetapi.js" async=""></script>
     <script src="https://www.youtube.com/player_api"></script>
-      <script>
+    <script>
 
 
         const $container = document.querySelector(".container");
@@ -76,7 +74,7 @@
         //https://www.youtube.com/watch?v=WY5ucvDZ1NI
         //https://www.youtube.com/watch?v=3TU0t5yqGf4
         //https://www.youtube.com/watch?v=5Av1Z5yS8so
-        console.log(myVideoList.join(','));
+        // console.log(myVideoList.join(','));
         function onPlayerReady (event) {
             // 준비되면 바로 시작
             // event.target.playVideo();
@@ -187,12 +185,14 @@
         const $now = document.querySelector(".now")
         $now.addEventListener('click', showMe);
         function showMe() {
-            console.log(items[0]);
+            console.log(items);
         }
 
         function addBox() {
             const parentEle = $container
+            const addEle = document.querySelector('.addbox')
             const newDivEle = document.createElement('div');
+            console.log(addEle)
             const newDivChildEle1 = document.createElement('div');
             const newDivChildEle2 = document.createElement('div');
             const newDivChildEle3 = document.createElement('div');
@@ -200,13 +200,12 @@
             newDivEle.setAttribute('draggable','true');
             newDivChildEle1.setAttribute('class', 'logo');
             newDivChildEle2.setAttribute('class', 'title');
-            newDivChildEle3.setAttribute('class', 'length');
-            const userInput = prompt("유튜브 링크 입력");
-            newDivChildEle2.innerHTML = userInput;
+            newDivChildEle2.innerHTML = prompt("유튜브 링크 입력");;
             newDivEle.appendChild(newDivChildEle1);
             newDivEle.appendChild(newDivChildEle2);
             newDivEle.appendChild(newDivChildEle3);
-            parentEle.appendChild(newDivEle);
+            parentEle.insertBefore(newDivEle,addEle);
+
         }
             
       </script>
