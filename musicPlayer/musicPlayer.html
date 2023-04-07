@@ -16,14 +16,14 @@
             <button type="button" onclick="stopYoutube();">Stop</button>
             <button type="button">Before</button>
             <button type="button">After</button>
-            <button type="button" onclick="newVideo();">newVIDEO</button>
+            <button onclick="nextPlay()">nexPlay</button>
         </div>
     </div>
     <div class="container">
-        <div draggable="true" class="box">
+        <!-- <div draggable="true" class="box">
             <div>title</div>
             <div>link</div>
-        </div>
+        </div> -->
         <div class="box addbox" onclick="addBox()">+</div>
     </div>
     <button class="now">hoooooooooooooooooo</button>
@@ -73,20 +73,21 @@
             // event.target.playVideo();
         }
 
-        // var done = false;
+        var done = false;
         function onPlayerStateChange(event) {
-            // let parent = document.querySelector(".container");
-            // let child = items[0];
-            // parent.removeChild(child);
-            // console.log(child)
-            // if (event.data == YT.PlayerState.PLAYING && !done) {
-            //     done = true;
-            // }
+
+            if (event.data == YT.PlayerState.PLAYING && !done) {
+                done = true;
+            }
             if(event.data == YT.PlayerState.ENDED) {
-                let nextVideoID = 'BzhKdxqqt5I'
+                let parent = document.querySelector(".container");
+                let child = items[0];
+                parent.removeChild(child);
+                console.log(child)
+                // let nextVideoID = 'BzhKdxqqt5I'
                 // let nextVideoID = getNextVideoId();
 
-                player.loadVideoById(nextVideoID);
+                player.loadVideoById(nextPlay());
                 player.playVideo();
             }
         }
@@ -110,11 +111,6 @@
 
         function previousVideo() {
             player.previousVideo()
-        }
-
-        function newVideo(e) {
-            // e.stopPropagation();
-            player.cueVideoById(myVideoList[0]);
         }
 
         function getNextVideoId() {
@@ -203,7 +199,16 @@
         $now.addEventListener('click', showMe);
         function showMe() {
             console.log(items[1].children[1].textContent);
-            console.log(items);
+        }
+
+        let nowPlay;
+        function nextPlay() {
+            nowPlay = items[0].children[1].textContent;
+            // console.log(nowPlay);
+            const link = nowPlay;
+            const videoId = link.match(/v=([^&]+)/)[1];
+            //https://www.youtube.com/watch?v=1Bj9Iv-2csg
+            return videoId;
         }
 
         function addBox() {
@@ -218,6 +223,7 @@
             newDivEle.setAttribute('draggable','true');
             newDivChildEle1.setAttribute('class', 'title');
             newDivChildEle2.setAttribute('class', 'link');
+            newDivChildEle3.setAttribute('class', 'delete');
             newDivChildEle2.innerHTML = prompt("유튜브 링크 입력");;
             newDivEle.appendChild(newDivChildEle1);
             newDivEle.appendChild(newDivChildEle2);
