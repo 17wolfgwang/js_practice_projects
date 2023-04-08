@@ -15,8 +15,7 @@
             <button type="button" onclick="pauseYoutube();">Pause</button>
             <button type="button" onclick="stopYoutube();">Stop</button>
             <button type="button">Before</button>
-            <button type="button">After</button>
-            <button onclick="nextPlay()">nexPlay</button>
+            <button type="button" onclick="nextYoutube()">After</button>
         </div>
     </div>
     <div class="container">
@@ -26,31 +25,27 @@
         </div> -->
         <div class="box addbox" onclick="addBox()">+</div>
     </div>
-    <button class="now">hoooooooooooooooooo</button>
-    <script type="text/javascript" id="www-widgetapi-script" src="https://s.ytimg.com/yts/jsbin/www-widgetapi-vflS50iB-/www-widgetapi.js" async=""></script>
-    <script src="https://www.youtube.com/player_api"></script>
+    <!-- <script type="text/javascript" id="www-widgetapi-script" src="https://s.ytimg.com/yts/jsbin/www-widgetapi-vflS50iB-/www-widgetapi.js" async=""></script>
+    <script src="https://www.youtube.com/player_api"></script> -->
     <script>
-
-
         const $container = document.querySelector(".container");
         // Youtube API 
-        // var tag = document.createElement('script');
-        // tag.src = "https://www.youtube.com/iframe_api";
-        // var firstScriptTag = document.getElementsByTagName('script')[0];
-        // firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-        // console.log(firstScriptTag)
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
         /**
          * onYouTubeIframeAPIReady 함수는 필수로 구현해야 한다.
          * 플레이어 API에 대한 JavaScript 다운로드 완료 시 API가 이 함수 호출한다.
          * 페이지 로드 시 표시할 플레이어 개체를 만들어야 한다.
          */
-        var player;
+        let player;
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('video', {
                 height: '600',            // <iframe> 태그 지정시 필요없음
                 width: '1200',             // <iframe> 태그 지정시 필요없음
-                videoId: '9bZkp7q19f0',   // <iframe> 태그 지정시 필요없음
+                videoId: 'K4TOrB7at0Y',   // <iframe> 태그 지정시 필요없음
                 playerVars: {             // <iframe> 태그 지정시 필요없음
                     // listType: 'playlist',
                     // list: playlistId,
@@ -62,12 +57,7 @@
                 }
             });
         }
-        const myVideoList = ['WY5ucvDZ1NI', '3TU0t5yqGf4', '5Av1Z5yS8so'];
 
-        //https://www.youtube.com/watch?v=WY5ucvDZ1NI
-        //https://www.youtube.com/watch?v=3TU0t5yqGf4
-        //https://www.youtube.com/watch?v=5Av1Z5yS8so
-        // console.log(myVideoList.join(','));
         function onPlayerReady (event) {
             // 준비되면 바로 시작
             // event.target.playVideo();
@@ -83,9 +73,6 @@
                 let parent = document.querySelector(".container");
                 let child = items[0];
                 parent.removeChild(child);
-                console.log(child)
-                // let nextVideoID = 'BzhKdxqqt5I'
-                // let nextVideoID = getNextVideoId();
 
                 player.loadVideoById(nextPlay());
                 player.playVideo();
@@ -106,7 +93,12 @@
         }
 
         function nextYoutube () {
-            player.nextVideo()
+            let parent = document.querySelector(".container");
+            let child = items[0];
+            parent.removeChild(child);
+            player.loadVideoById(nextPlay());
+            // player.cueVideoById(nextPlay());
+            console.log(nextPlay());
         }
 
         function previousVideo() {
@@ -176,6 +168,9 @@
             return false;
         }
 
+
+
+
         // MutationObserver를 활용해서 childNode 변경을 감지하고, 감지하면 안에 함수 실행!
         let items;
         const observer = new MutationObserver(function(mutationList, observer) {
@@ -195,27 +190,19 @@
         })
         observer.observe($container, {childList:true});
 
-        const $now = document.querySelector(".now")
-        $now.addEventListener('click', showMe);
-        function showMe() {
-            console.log(items[1].children[1].textContent);
-        }
-
         let nowPlay;
         function nextPlay() {
             nowPlay = items[0].children[1].textContent;
-            // console.log(nowPlay);
             const link = nowPlay;
             const videoId = link.match(/v=([^&]+)/)[1];
             //https://www.youtube.com/watch?v=1Bj9Iv-2csg
             return videoId;
         }
-
+        
+        // Add, delete playlist box
         function addBox() {
-            const parentEle = $container
             const addEle = document.querySelector('.addbox')
             const newDivEle = document.createElement('div');
-            console.log(addEle)
             const newDivChildEle1 = document.createElement('div');
             const newDivChildEle2 = document.createElement('div');
             const newDivChildEle3 = document.createElement('div');
@@ -224,12 +211,27 @@
             newDivChildEle1.setAttribute('class', 'title');
             newDivChildEle2.setAttribute('class', 'link');
             newDivChildEle3.setAttribute('class', 'delete');
-            newDivChildEle2.innerHTML = prompt("유튜브 링크 입력");;
-            newDivEle.appendChild(newDivChildEle1);
-            newDivEle.appendChild(newDivChildEle2);
-            newDivEle.appendChild(newDivChildEle3);
-            parentEle.insertBefore(newDivEle,addEle);
+            newDivChildEle3.textContent = 'delete';
+            newDivChildEle3.addEventListener('click', deleteBox);
+            newDivChildEle2.innerHTML = prompt("유튜브 링크 입력");
+            console.log(newDivChildEle2.innerHTML);
+            if ( newDivChildEle2.innerHTML === '') {
+                return;
+            }   else if(!newDivChildEle2.innerHTML.startsWith("https://www.youtube.com")) {
+                alert("URL은 'https://www.youtube.com'으로 시작해야 합니다.");
+                return;
+            }
+            else {
+                newDivEle.appendChild(newDivChildEle1);
+                newDivEle.appendChild(newDivChildEle2);
+                newDivEle.appendChild(newDivChildEle3);
+            }    
+            $container.insertBefore(newDivEle,addEle);
 
+        }
+
+        function deleteBox(e) {
+            console.log(e.target.parentNode.remove());
         }
             
       </script>
