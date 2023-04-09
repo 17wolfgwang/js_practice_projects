@@ -35,6 +35,15 @@
         var firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
+        //새로고침 시 local stroage data 불러오기
+        window.onload = function() {
+            let savedData = JSON.parse(localStorage.getItem("boxData")) || [];
+            for(let i=0; i<savedData.length; i++) {
+                if(savedData = []) return;
+                $container.appendChild(savedData[i]);
+            }
+        }
+
         /**
          * onYouTubeIframeAPIReady 함수는 필수로 구현해야 한다.
          * 플레이어 API에 대한 JavaScript 다운로드 완료 시 API가 이 함수 호출한다.
@@ -98,7 +107,6 @@
             parent.removeChild(child);
             player.loadVideoById(nextPlay());
             // player.cueVideoById(nextPlay());
-            console.log(nextPlay());
         }
 
         function previousVideo() {
@@ -114,7 +122,6 @@
             if (data == YT.PlayerState.PLAYING && played == false) {
                 // todo statistics
                 played = true;
-                console.log('statistics');
             }
         }
 
@@ -214,7 +221,7 @@
             newDivChildEle3.textContent = 'delete';
             newDivChildEle3.addEventListener('click', deleteBox);
             newDivChildEle2.innerHTML = prompt("유튜브 링크 입력");
-            console.log(newDivChildEle2.innerHTML);
+            // console.log(newDivChildEle2.innerHTML);
             if ( newDivChildEle2.innerHTML === '') {
                 return;
             }   else if(!newDivChildEle2.innerHTML.startsWith("https://www.youtube.com")) {
@@ -228,10 +235,15 @@
             }    
             $container.insertBefore(newDivEle,addEle);
 
+            let savedData = []
+            savedData = JSON.parse(localStorage.getItem("boxData")) || [];
+            console.log(savedData);
+            savedData.push(newDivEle);
+            localStorage.setItem("boxData", JSON.stringify(savedData));
         }
 
         function deleteBox(e) {
-            console.log(e.target.parentNode.remove());
+            e.target.parentNode.remove();
         }
             
       </script>
