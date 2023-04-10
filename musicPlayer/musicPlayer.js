@@ -164,7 +164,25 @@ observer.observe($container, { childList: true });
 
 function nextPlay() {
   nowPlay = items[0].children[1].textContent;
-  const videoId = nowPlay.match(/v=([^&]+)/)[1];
+  //   const videoId = nowPlay.match(/v=([^&]+)/)[1];
+  //   return videoId;
+
+  let videoId = "";
+  if (nowPlay.startsWith("https://youtu.be/")) {
+    videoId = nowPlay.split("https://youtu.be/")[1].substring(0, 11);
+  } else if (nowPlay.startsWith("https://www.youtube.com/")) {
+    videoId = nowPlay.split("v=")[1].substring(0, 11);
+  }
+
+  //   const videoId = nowPlay.match(/(?:\?v=|\/)([^\s&]+)/);
+  //   console.log(nowPlay);
+
+  //   if (videoId) {
+  //     videoId = videoId[1];
+  //   } else {
+  //     videoId = url.split("/").pop();
+  //   }
+
   return videoId;
 }
 
@@ -206,8 +224,13 @@ function addBox() {
   });
   if (newDivChildEle2.innerHTML === "") {
     return;
-  } else if (!newDivChildEle2.innerHTML.startsWith("https://www.youtube.com")) {
-    alert("URL은 'https://www.youtube.com'으로 시작해야 합니다.");
+  } else if (
+    !newDivChildEle2.innerHTML.startsWith("https://www.youtube.com") &&
+    !newDivChildEle2.innerHTML.startsWith("https://youtu.be/")
+  ) {
+    alert(
+      "URL은 'https://www.youtube.com' 또는 'https://youtu.be/'로 시작해야 합니다."
+    );
     return;
   } else {
     newDivEle.appendChild(newDivChildEle1);
