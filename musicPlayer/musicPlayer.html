@@ -23,7 +23,7 @@
             <div>title</div>
             <div>link</div>
         </div> -->
-        <div class="box addbox" onclick="addBox()">+</div>
+        <div class="addbox" onclick="addBox()">+</div>
     </div>
     <!-- <script type="text/javascript" id="www-widgetapi-script" src="https://s.ytimg.com/yts/jsbin/www-widgetapi-vflS50iB-/www-widgetapi.js" async=""></script>
     <script src="https://www.youtube.com/player_api"></script> -->
@@ -39,30 +39,8 @@
         //새로고침 시 local stroage data 불러오기
         window.onload = function() {
             let savedData = JSON.parse(localStorage.getItem("boxData")) || [];
-            // const allItems = Object.entries(localStorage);
-            
-            // allItems.forEach(([key, value]) => {
-            //     if (value === null) {
-            //         localStorage.removeItem(key);
-            //     }
-            //     });
-            //     console.log(allItems)
-            // if(!savedData[0]) {
-            //     return;
-            // } 
-            // else if(savedData.inc) {
-
-            // }
-            // console.log(localStorage.boxData);
-            // const arr = localStorage.boxData;
-            // console.log(savedData)
-            // const filterArr = savedData.filter(item => item !== null);
-            // console.log(filterArr)
+            console.log(savedData);
             for(let i=0; i<savedData.length; i++) {
-                // if(savedData[i] === null) {
-                //     // localStorage.remove
-                //     continue
-                // };
                 let outerDiv = document.createElement('div');
                 outerDiv.setAttribute('class', 'box');
                 outerDiv.setAttribute('draggable', 'true');
@@ -199,12 +177,36 @@
             if (dragSrcEl !== this) {
                 dragSrcEl.innerHTML = this.innerHTML;
                 this.innerHTML = e.dataTransfer.getData('text/html');
+                addDeleteFunction();
+                const childs = $container.querySelectorAll('.box');
+                // console.log(typeof(childs));
+                // console.log(childs);
+                const test = Array.from(childs);
+                // console.log(test);
+                let eleArr = [];
+                for(let i=0; i<test.length;i++) {
+                    let ele = test[i].innerHTML;
+                    eleArr.push(ele);
+                }
+                console.log(eleArr);
+                localStorage.clear();
+                localStorage.setItem("boxData", JSON.stringify(eleArr));
+
+
+                // let test2 = JSON.parse(localStorage.getItem("boxData"));
+                // console.log(test2);
 
             }
             //fail 일 경우 null 보다 확실한 값으로 알려주는게 좋아서.
             return false;
         }
 
+        function addDeleteFunction() {
+            const deleteBtns = document.querySelectorAll('.delete');
+            deleteBtns.forEach((btn)=> {
+                btn.addEventListener('click', deleteBox)
+            })
+        }
 
 
 
@@ -250,11 +252,8 @@
             newDivChildEle2.setAttribute('class', 'link');
             newDivChildEle3.setAttribute('class', 'delete');
             newDivChildEle3.textContent = 'delete';
-            // newDivChildEle3.setAttribute('onclick','(e)=>deleteBox(e)')
             newDivChildEle3.addEventListener('click', deleteBox);
-            // console.log(newDivChildEle3);
             newDivChildEle2.innerHTML = prompt("유튜브 링크 입력");
-            // console.log(newDivChildEle2.innerHTML);
             if ( newDivChildEle2.innerHTML === '') {
                 return;
             }   else if(!newDivChildEle2.innerHTML.startsWith("https://www.youtube.com")) {
@@ -270,32 +269,20 @@
 
             let savedData = JSON.parse(localStorage.getItem("boxData")) || [];
             savedData.push(newDivEle.innerHTML);
+            // console.log(savedData);
             localStorage.setItem("boxData", JSON.stringify(savedData));
         }
 
         function deleteBox(e) {
             let savedData = JSON.parse(localStorage.getItem("boxData")) || [];
-            // console.log(e.target.parentNode)
             const clickedDiv = event.currentTarget.parentNode;
             const parent = clickedDiv.parentNode;
             const childs = parent.querySelectorAll('.box');
             const divs = Array.from(childs);
             const index = divs.indexOf(clickedDiv);
-            // localStorage에서 boxData 가져오기
             const boxData = JSON.parse(localStorage.getItem("boxData"));
-            // // 해당 index에 해당하는 div 삭제
             delete boxData[index];
-            console.log(boxData);
-            // console.log(boxData);
-              // 빈 값 제거
-            // Object.keys(boxData).forEach((key) => {
-            //     if (boxData[key] === null) {
-            //         delete boxData[key];
-            //     }
-            // });
             const filterArr = boxData.filter(item => item !== null || item!==undefined);
-            // savedData.filter(item => item !== null)
-            // // 변경된 boxData를 localStorage에 저장
             localStorage.setItem("boxData", JSON.stringify(filterArr));
             e.target.parentNode.remove();
         }
