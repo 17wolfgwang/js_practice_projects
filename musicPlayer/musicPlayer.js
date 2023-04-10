@@ -1,8 +1,8 @@
 const $container = document.querySelector(".container");
 const addEle = document.querySelector(".addbox");
 const modal = document.querySelector(".modal");
-const titleInput = modal.querySelector(".title");
-const linkInput = modal.querySelector(".link");
+const titleInput = modal.querySelector("#title");
+const linkInput = modal.querySelector("#link");
 const submitBtn = modal.querySelector("#submit");
 const closeBtn = modal.querySelector(".close");
 
@@ -26,7 +26,10 @@ window.onload = function () {
     outerDiv.setAttribute("draggable", "true");
     outerDiv.innerHTML = `${savedData[i]}`;
     let deleteBtn = outerDiv.querySelector(".delete");
-    deleteBtn.addEventListener("click", deleteBox);
+    deleteBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      deleteBox(e);
+    });
     $container.insertBefore(outerDiv, addEle);
   }
 };
@@ -125,7 +128,7 @@ function handleDrop(e) {
       let ele = test[i].innerHTML;
       eleArr.push(ele);
     }
-    localStorage.clear();
+    localStorage.removeItem("boxData");
     localStorage.setItem("boxData", JSON.stringify(eleArr));
   }
   //Better clear than 'null' value
@@ -134,7 +137,10 @@ function handleDrop(e) {
 function addDeleteFunction() {
   const deleteBtns = document.querySelectorAll(".delete");
   deleteBtns.forEach((btn) => {
-    btn.addEventListener("click", deleteBox);
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      deleteBox(e);
+    });
   });
 }
 
@@ -184,7 +190,7 @@ function addBox() {
   const newDivEle = document.createElement("div");
   const newDivChildEle1 = document.createElement("div");
   const newDivChildEle2 = document.createElement("div");
-  const newDivChildEle3 = document.createElement("div");
+  const newDivChildEle3 = document.createElement("span");
   newDivEle.setAttribute("class", "box");
   newDivEle.setAttribute("draggable", "true");
   newDivChildEle1.setAttribute("class", "title");
@@ -193,8 +199,11 @@ function addBox() {
   newDivChildEle1.textContent = title;
   newDivChildEle2.textContent = link;
   newDivChildEle2.style.display = "none";
-  newDivChildEle3.textContent = "delete";
-  newDivChildEle3.addEventListener("click", deleteBox);
+  newDivChildEle3.textContent = "X";
+  newDivChildEle3.addEventListener("click", (e) => {
+    e.stopPropagation();
+    deleteBox(e);
+  });
   if (newDivChildEle2.innerHTML === "") {
     return;
   } else if (!newDivChildEle2.innerHTML.startsWith("https://www.youtube.com")) {
@@ -213,8 +222,9 @@ function addBox() {
 }
 
 function deleteBox(e) {
-  let savedData = JSON.parse(localStorage.getItem("boxData")) || [];
+  //   e.stopPropagation();
   const clickedDiv = e.currentTarget.parentNode;
+  //   console.log(e.target);
   deleteLocalStorage(clickedDiv);
   clickedDiv.remove();
 }
