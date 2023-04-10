@@ -29,6 +29,7 @@
     <script src="https://www.youtube.com/player_api"></script> -->
     <script>
         const $container = document.querySelector(".container");
+        const addEle = document.querySelector('.addbox');
         // Youtube API 
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
@@ -38,9 +39,23 @@
         //새로고침 시 local stroage data 불러오기
         window.onload = function() {
             let savedData = JSON.parse(localStorage.getItem("boxData")) || [];
+            if(!savedData[0]) {
+                return;
+            };
+            // let outerDiv = document.createElement('div');
+            // outerDiv.setAttribute('class', 'box');
+            // outerDiv.setAttribute('draggable', 'true');
+            // outerDiv.innerHTML = `${savedData[0]}`;
             for(let i=0; i<savedData.length; i++) {
-                if(savedData = []) return;
-                $container.appendChild(savedData[i]);
+                let outerDiv = document.createElement('div');
+                outerDiv.setAttribute('class', 'box');
+                outerDiv.setAttribute('draggable', 'true');
+                outerDiv.innerHTML = `${savedData[i]}`;
+                let deleteBtn = outerDiv.querySelector(".delete");
+                deleteBtn.addEventListener('click',deleteBox);
+                // console.log(document.querySelector(".delete") || 'none')
+                $container.insertBefore(outerDiv,addEle);
+
             }
         }
 
@@ -207,8 +222,9 @@
         }
         
         // Add, delete playlist box
+
         function addBox() {
-            const addEle = document.querySelector('.addbox')
+            
             const newDivEle = document.createElement('div');
             const newDivChildEle1 = document.createElement('div');
             const newDivChildEle2 = document.createElement('div');
@@ -219,7 +235,9 @@
             newDivChildEle2.setAttribute('class', 'link');
             newDivChildEle3.setAttribute('class', 'delete');
             newDivChildEle3.textContent = 'delete';
+            // newDivChildEle3.setAttribute('onclick','(e)=>deleteBox(e)')
             newDivChildEle3.addEventListener('click', deleteBox);
+            console.log(newDivChildEle3);
             newDivChildEle2.innerHTML = prompt("유튜브 링크 입력");
             // console.log(newDivChildEle2.innerHTML);
             if ( newDivChildEle2.innerHTML === '') {
@@ -235,15 +253,14 @@
             }    
             $container.insertBefore(newDivEle,addEle);
 
-            let savedData = []
-            savedData = JSON.parse(localStorage.getItem("boxData")) || [];
-            console.log(savedData);
-            savedData.push(newDivEle);
+            let savedData = JSON.parse(localStorage.getItem("boxData")) || [];
+            savedData.push(newDivEle.innerHTML);
             localStorage.setItem("boxData", JSON.stringify(savedData));
         }
 
         function deleteBox(e) {
             e.target.parentNode.remove();
+            console.log(e.target.parentNode)
         }
             
       </script>
