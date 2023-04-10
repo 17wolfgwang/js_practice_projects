@@ -39,21 +39,36 @@
         //새로고침 시 local stroage data 불러오기
         window.onload = function() {
             let savedData = JSON.parse(localStorage.getItem("boxData")) || [];
-            if(!savedData[0]) {
-                return;
-            };
-            // let outerDiv = document.createElement('div');
-            // outerDiv.setAttribute('class', 'box');
-            // outerDiv.setAttribute('draggable', 'true');
-            // outerDiv.innerHTML = `${savedData[0]}`;
+            // const allItems = Object.entries(localStorage);
+            
+            // allItems.forEach(([key, value]) => {
+            //     if (value === null) {
+            //         localStorage.removeItem(key);
+            //     }
+            //     });
+            //     console.log(allItems)
+            // if(!savedData[0]) {
+            //     return;
+            // } 
+            // else if(savedData.inc) {
+
+            // }
+            // console.log(localStorage.boxData);
+            // const arr = localStorage.boxData;
+            // console.log(savedData)
+            // const filterArr = savedData.filter(item => item !== null);
+            // console.log(filterArr)
             for(let i=0; i<savedData.length; i++) {
+                // if(savedData[i] === null) {
+                //     // localStorage.remove
+                //     continue
+                // };
                 let outerDiv = document.createElement('div');
                 outerDiv.setAttribute('class', 'box');
                 outerDiv.setAttribute('draggable', 'true');
                 outerDiv.innerHTML = `${savedData[i]}`;
                 let deleteBtn = outerDiv.querySelector(".delete");
-                deleteBtn.addEventListener('click',deleteBox);
-                // console.log(document.querySelector(".delete") || 'none')
+                deleteBtn.addEventListener('click',deleteBox)
                 $container.insertBefore(outerDiv,addEle);
 
             }
@@ -237,7 +252,7 @@
             newDivChildEle3.textContent = 'delete';
             // newDivChildEle3.setAttribute('onclick','(e)=>deleteBox(e)')
             newDivChildEle3.addEventListener('click', deleteBox);
-            console.log(newDivChildEle3);
+            // console.log(newDivChildEle3);
             newDivChildEle2.innerHTML = prompt("유튜브 링크 입력");
             // console.log(newDivChildEle2.innerHTML);
             if ( newDivChildEle2.innerHTML === '') {
@@ -259,8 +274,30 @@
         }
 
         function deleteBox(e) {
+            let savedData = JSON.parse(localStorage.getItem("boxData")) || [];
+            // console.log(e.target.parentNode)
+            const clickedDiv = event.currentTarget.parentNode;
+            const parent = clickedDiv.parentNode;
+            const childs = parent.querySelectorAll('.box');
+            const divs = Array.from(childs);
+            const index = divs.indexOf(clickedDiv);
+            // localStorage에서 boxData 가져오기
+            const boxData = JSON.parse(localStorage.getItem("boxData"));
+            // // 해당 index에 해당하는 div 삭제
+            delete boxData[index];
+            console.log(boxData);
+            // console.log(boxData);
+              // 빈 값 제거
+            // Object.keys(boxData).forEach((key) => {
+            //     if (boxData[key] === null) {
+            //         delete boxData[key];
+            //     }
+            // });
+            const filterArr = boxData.filter(item => item !== null || item!==undefined);
+            // savedData.filter(item => item !== null)
+            // // 변경된 boxData를 localStorage에 저장
+            localStorage.setItem("boxData", JSON.stringify(filterArr));
             e.target.parentNode.remove();
-            console.log(e.target.parentNode)
         }
             
       </script>
