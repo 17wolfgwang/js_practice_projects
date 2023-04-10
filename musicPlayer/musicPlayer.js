@@ -1,10 +1,13 @@
 const $container = document.querySelector(".container");
-const addEle = document.querySelector(".addbox");
-const modal = document.querySelector(".modal");
-const titleInput = modal.querySelector("#title");
-const linkInput = modal.querySelector("#link");
-const submitBtn = modal.querySelector("#submit");
-const closeBtn = modal.querySelector(".close");
+const $addBox = document.querySelector(".addbox");
+const $modal = document.querySelector(".modal");
+const $titleInput = $modal.querySelector("#title");
+const $linkInput = $modal.querySelector("#link");
+const $submitBtn = $modal.querySelector("#submit");
+const $closeBtn = $modal.querySelector(".close");
+const $videoTitle = document.querySelector(".videoTitle");
+//items[0].children[1].textContent
+// const $title = document.querySelectorAll(".title");
 
 let player;
 let done = false;
@@ -30,7 +33,7 @@ window.onload = function () {
       e.stopPropagation();
       deleteBox(e);
     });
-    $container.insertBefore(outerDiv, addEle);
+    $container.insertBefore(outerDiv, $addBox);
   }
 };
 
@@ -64,15 +67,19 @@ function onPlayerStateChange(event) {
     child.remove();
     player.loadVideoById(nextPlay());
     player.playVideo();
+    $videoTitle.classList.add("gradient");
   }
 }
 function playYoutube() {
+  $videoTitle.classList.add("gradient");
   player.playVideo();
 }
 function pauseYoutube() {
+  $videoTitle.classList.remove("gradient");
   player.pauseVideo();
 }
 function stopYoutube() {
+  $videoTitle.classList.remove("gradient");
   player.seekTo(0, true); // Move playtime of the video to 0.
   player.stopVideo();
 }
@@ -164,47 +171,36 @@ observer.observe($container, { childList: true });
 
 function nextPlay() {
   nowPlay = items[0].children[1].textContent;
-  //   const videoId = nowPlay.match(/v=([^&]+)/)[1];
-  //   return videoId;
-
+  let videoName = items[0].children[0].textContent;
+  $videoTitle.textContent = videoName;
   let videoId = "";
   if (nowPlay.startsWith("https://youtu.be/")) {
     videoId = nowPlay.split("https://youtu.be/")[1].substring(0, 11);
   } else if (nowPlay.startsWith("https://www.youtube.com/")) {
     videoId = nowPlay.split("v=")[1].substring(0, 11);
   }
-
-  //   const videoId = nowPlay.match(/(?:\?v=|\/)([^\s&]+)/);
-  //   console.log(nowPlay);
-
-  //   if (videoId) {
-  //     videoId = videoId[1];
-  //   } else {
-  //     videoId = url.split("/").pop();
-  //   }
-
   return videoId;
 }
 
 // Modal
-modal.style.display = "none";
+$modal.style.display = "none";
 function showModal() {
-  modal.style.display = "block";
+  $modal.style.display = "block";
 }
 function closeModal() {
   addBox();
   clearInput();
-  modal.style.display = "none";
+  $modal.style.display = "none";
 }
 function clearInput() {
-  titleInput.value = "";
-  linkInput.value = "";
+  $titleInput.value = "";
+  $linkInput.value = "";
 }
 
 // Add, delete playlist box
 function addBox() {
-  let title = titleInput.value;
-  let link = linkInput.value;
+  let title = $titleInput.value;
+  let link = $linkInput.value;
   const newDivEle = document.createElement("div");
   const newDivChildEle1 = document.createElement("div");
   const newDivChildEle2 = document.createElement("div");
@@ -237,7 +233,7 @@ function addBox() {
     newDivEle.appendChild(newDivChildEle2);
     newDivEle.appendChild(newDivChildEle3);
   }
-  $container.insertBefore(newDivEle, addEle);
+  $container.insertBefore(newDivEle, $addBox);
 
   let savedData = JSON.parse(localStorage.getItem("boxData")) || [];
   savedData.push(newDivEle.innerHTML);
@@ -265,12 +261,12 @@ function deleteLocalStorage(one) {
   localStorage.setItem("boxData", JSON.stringify(filterArr));
 }
 
-addEle.addEventListener("click", showModal);
-submitBtn.addEventListener("click", closeModal);
-closeBtn.addEventListener("click", closeModal);
+$addBox.addEventListener("click", showModal);
+$submitBtn.addEventListener("click", closeModal);
+$closeBtn.addEventListener("click", closeModal);
 
 window.addEventListener("click", function (e) {
-  if (e.target === modal) {
+  if (e.target === $modal) {
     closeModal();
     clearInput();
   }

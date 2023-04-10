@@ -18,26 +18,45 @@ body {
 #video {
     margin:30px;
     box-shadow: 8px 8px 8px 8px #FFFFFF;
-    margin-top: 100px;
 }
 
 .descSection{
+    color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0 5vw;
-    margin-top: 3vh;
+    margin-top: 2vh;
 }
 .descSection .descTitle{
-    font-size: 55px;
-    font-weight: bold;
+    font-size: 35px;
+    /* font-weight: bold; */
     margin: 8px;
 }
-.descSection .descSubTitle{
-    font-size: 18px;
+.videoTitle {
+    display: flex;
+    font-size: 45px;
+    padding:  5px 25px;
+    align-items: center;
+    text-align: center;
     font-weight: bold;
-    margin: 8px;
-}
+
+  }
+  .gradient {
+    background: linear-gradient(to right, #16A085, #F4D03F);
+    background-size: 200% 200%;
+    animation: gradient 1s ease infinite;
+  }
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
 
 .container {
     display: grid;
@@ -180,7 +199,7 @@ body {
   .input {
     border: none;
     font-size: 35px;
-    background-color: rgba(128,128,128,0.3);
+    background-color: rgba(128,128,128,0.1);
     border-bottom: 1px solid black;
     text-align: center;
     width: 100%;
@@ -194,8 +213,15 @@ body {
   .submit{
     position: absolute;
     margin: 15px;
+    padding: 5px;
+    background: none;
+    border: none;
     bottom: 0;
     right: 0;
     font-size: 20px;
     font-weight: bold;
+    cursor: pointer;
+  }
+  .submit:hover {
+    background-color: rgba(128,128,128,0.1);
   }
