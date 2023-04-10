@@ -4,13 +4,34 @@
     box-sizing: border-box;
 }
 
+.onPlayingSection{
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+}
+#video {
+    margin:10px;
+    border: 3px solid red;
+    /* display: flex; */
+    /* align-items: center; */
+}
+
 .container {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 10px;
+    margin: 2vh 5vw;
   }
   
   .box {
+    /* border: 3px solid rgba(255, 232, 232, 0.8); */
+    background-color: rgba(255, 232, 232, 0.8);
+    border-radius: .5em;
+    padding: 10px;
+    cursor: move;
+  }
+  .addbox{
     border: 3px solid #666;
     background-color: #ddd;
     border-radius: .5em;
@@ -18,6 +39,32 @@
     cursor: move;
   }
 
+  button {
+    width:50px;
+    height: 25px;
+    margin: 15px;
+    background:none;
+    border: 1px solid black;
+  }
+
   .box.over {
     border: 3px dotted #666;
   }
+
+  .modal {
+    background-color: white;
+    border: 3px solid red;
+    width: 30vw;
+    height: 30vh;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+  }
+  .modalContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
