@@ -5,15 +5,33 @@
 }
 
 body, html {
+    position: relative;
     width: 100%;
     height: 100%;
 }
 
-.commonNav {
+.webViewNav {
     position: absolute;
     width: 100%;
+    height: 60px;
     display: flex;
+    align-items: center;
     flex-direction: row;
-    justify-content: space-evenly;
-    background-color: red;
+    justify-content:stretch;
+    background-color: rgba(135,206,235,0.7);
+}
+
+.webViewNav div {
+    margin: 100px;
+}
+
+.logo{
+    /* position: absolute; */
+    left: 0;
+    margin: 0 50px;
+}
+
+.webViewDiv{
+    position: absolute;
+    margin-top: 60px;
 }
