@@ -11,12 +11,20 @@ body, html {
     height: 100%;
 }
 
-.webViewNav {
+.topDiv {
+    background-color: white;
+    height: 100px;
+}
+
+.navBar {
     margin: 0 31.5px;
-    height: 60px;
+    /* height: 60px; */
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    background-color: rgba(135,206,235,0.7);
+    padding: 8px 12px;
+    font-size: 20px;
+    /* background-color: rgba(135,206,235,0.7); */
 }
 
 .navHeader {
@@ -24,34 +32,54 @@ body, html {
     flex-direction: row;
 }
 .logo{
-    padding-left: 0;
+    padding-left: 4vw;
+    font-size: 30px;
 }
-
 .navMenu {
     list-style: none;
     display: flex;
     margin: 0;
     padding-left: 0;
 }
-
 .navMenu li {
-    padding: 8px 30px;
+    padding: 8px 4vw;
 }
-
-.webViewDiv{
+.navToggle {
     position: absolute;
-    margin-top: 60px;
+    right:15px;
+    font-size: 1rem;
+    display: none;
+}
+.section{
 }
 
+img {
+    width: 100%;
+    border-top: 300px solid white;
+}
 
-@media screen and (max-width: 700px) {
-    .webViewNav {
+.title {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 400px;
+    font-size: 100px;
+    text-align: center;
+    z-index: 10;
+    margin: 0 auto;
+    /* overflow: hidden; */
+    width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+    .navBar {
         flex-direction: column;
         align-items: flex-start;
         margin:0;
     }
 
     .navMenu{
+        display: none;
         flex-direction: column;
         align-items: center;
         width: 100%;
@@ -60,5 +88,13 @@ body, html {
     .navMenu li {
         width: 100%;
         text-align: center;
+    }
+
+    .navToggle{
+        display: block;
+    }
+
+    .navMenu.active {
+        display: block;
     }
 }

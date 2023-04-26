@@ -11,11 +11,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&display=swap" rel="stylesheet">
 </head>
 <body>
-    <nav class="webViewNav">
+    <div class="topDiv"></div>
+    <nav class="navBar">
         <!-- Nav header-->
         <div class="navHeader">
             <div class="logo">Logo</div>
-            <button class="navMenuBtn">nav-toggle</button>
         </div>
         <ul class="navMenu">
             <li>Home</li>
@@ -24,12 +24,23 @@
             <li>FAQ</li>
             <li>Contact</li>
         </ul>
+        <button class="navToggle">menu</button>
     </nav>
-    <div class="webViewDiv">
-        <div>here is image</div>
-        <div>Resize Your Window.</div>
-        <div>You can see the diffence</div>
-    </div>
+    <section class="section">
+        <img src="https://i.pinimg.com/564x/5d/05/d5/5d05d57de98dc4218cb212358f65aac1.jpg" alt="image">
+        <div class="title">
+            <div>RESIZE YOUR WINDOW</div>
+            <!-- <div>You can see the diffence</div> -->
+        </div>
+    </section>
+    <script>
+        const $navToggle = document.querySelector('.navToggle');
+        const $navMenu = document.querySelector('.navMenu');
+
+        $navToggle.addEventListener('click', ()=> {
+            $navMenu.classList.toggle('active')
+        })
+    </script>
     <script type="text/JavaScript" src="responsiveWeb.js"></script>
 </body>
 </html>
