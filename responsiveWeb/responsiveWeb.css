@@ -18,6 +18,7 @@ body, html {
 
 .navBar {
     margin: 0 31.5px;
+    position: relative;
     /* height: 60px; */
     display: flex;
     justify-content: space-between;
@@ -63,7 +64,7 @@ img {
     left: 0;
     right: 0;
     top: 400px;
-    font-size: 100px;
+    font-size: 5vw;
     text-align: center;
     z-index: 10;
     margin: 0 auto;
@@ -71,11 +72,22 @@ img {
     width: 100%;
 }
 
+.extend{
+    
+}
+
 @media screen and (max-width: 768px) {
+    .topDiv{
+        display: none;
+    }
     .navBar {
         flex-direction: column;
         align-items: flex-start;
-        margin:0;
+        padding-top:30px;
+    }
+
+    .title {
+        top: 330px;
     }
 
     .navMenu{

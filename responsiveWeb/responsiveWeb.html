@@ -24,10 +24,10 @@
             <li>FAQ</li>
             <li>Contact</li>
         </ul>
-        <button class="navToggle">menu</button>
+        <div class="navToggle">menu</div>
     </nav>
     <section class="section">
-        <img src="https://i.pinimg.com/564x/5d/05/d5/5d05d57de98dc4218cb212358f65aac1.jpg" alt="image">
+        <img class="mainImg" src="https://i.pinimg.com/564x/5d/05/d5/5d05d57de98dc4218cb212358f65aac1.jpg" alt="image">
         <div class="title">
             <div>RESIZE YOUR WINDOW</div>
             <!-- <div>You can see the diffence</div> -->
@@ -36,9 +36,16 @@
     <script>
         const $navToggle = document.querySelector('.navToggle');
         const $navMenu = document.querySelector('.navMenu');
+        const $mainImg = document.querySelector('.mainImg');
 
         $navToggle.addEventListener('click', ()=> {
             $navMenu.classList.toggle('active')
+        })
+
+        window.addEventListener('scroll', function() {
+            if(window.scrollY) {
+                $mainImg.classList.add('extend')
+            }
         })
     </script>
     <script type="text/JavaScript" src="responsiveWeb.js"></script>
