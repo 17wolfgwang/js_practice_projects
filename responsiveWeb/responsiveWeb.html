@@ -52,13 +52,12 @@
         })
 
         window.addEventListener('scroll', function(e) {
-            console.log();
             e.preventDefault();
             if(window.scrollY > 0) {
                 $topDiv.classList.add('remove');
+                $navBar.classList.add('disappear');
                 $title.classList.add('fadeAway');
                 $title.classList.add('transition');
-                $navBar.classList.add('disappear');
                 $title2.classList.add('fadeAway');
                 $title2.classList.add('transition');
                 $background.classList.add('transition');
