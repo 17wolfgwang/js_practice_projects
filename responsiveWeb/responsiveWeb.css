@@ -72,8 +72,26 @@ img {
     width: 100%;
 }
 
+.fadeAway {
+    animation: fadeout 2.5s;
+    animation-fill-mode: forwards;
+}
+@keyframes fadeout {
+    from {
+        opacity: 1;
+    }
+    to{
+        opacity: 0;
+        font-size: 7vw;
+        /* display: none; */
+    }
+}
+
+
+
+
 .extend{
-    
+
 }
 
 @media screen and (max-width: 768px) {

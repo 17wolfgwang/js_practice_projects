@@ -37,14 +37,18 @@
         const $navToggle = document.querySelector('.navToggle');
         const $navMenu = document.querySelector('.navMenu');
         const $mainImg = document.querySelector('.mainImg');
+        const $title = document.querySelector('.title');
 
         $navToggle.addEventListener('click', ()=> {
             $navMenu.classList.toggle('active')
         })
 
         window.addEventListener('scroll', function() {
-            if(window.scrollY) {
-                $mainImg.classList.add('extend')
+            if(window.scrollY > 0) {
+                $mainImg.classList.add('extend');
+                $title.classList.add('fadeAway');
+            } else {
+                $title.classList.remove('fadeAway');
             }
         })
     </script>
