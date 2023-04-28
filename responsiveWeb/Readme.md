@@ -10,34 +10,9 @@
   <p align="center">
     Resize browser and scroll it! you can see the difference!
     <br />
-    <a href="https://github.com/17wolfgwang/js_practice_projects/tree/master/musicPlayer"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/17wolfgwang/js_practice_projects/tree/master/responsiveWeb"><strong>Explore the docs »</strong></a>
     <br />
 </div>
-
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ol>
-</details>
 
 <!-- ABOUT THE PROJECT -->
 
@@ -84,7 +59,8 @@ These days, many websites have responsive browser function for both tablet and m
 
 # 4. Contact
 
-Stan Jang - [preparing](url) - email@example.com<br/>
+Always welcome for any request!
+Stan Jang - [Presonal amail](dkzks44@naver.com) - dkzks44@naver.com<br/>
 My blog - [https://velog.io/@dkzks44](https://velog.io/@dkzks44)<br/>
 Project Link: [https://github.com/17wolfgwang/js_practice_projects](https://github.com/17wolfgwang/js_practice_projects)
 
