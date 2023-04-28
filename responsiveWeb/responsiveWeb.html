@@ -27,28 +27,52 @@
         <div class="navToggle">menu</div>
     </nav>
     <section class="section">
-        <img class="mainImg" src="https://i.pinimg.com/564x/5d/05/d5/5d05d57de98dc4218cb212358f65aac1.jpg" alt="image">
-        <div class="title">
-            <div>RESIZE YOUR WINDOW</div>
-            <!-- <div>You can see the diffence</div> -->
+        <div class="background"></div>
+        <div>
+            <div class="title">RESIZE YOUR WINDOW</div>
+            <div class="title2">SCROLL YOUR WINDOW</div>
+            <div class="title afterTitle">You can see the diffence</div>
         </div>
     </section>
     <script>
+        const $topDiv = document.querySelector('.topDiv');
+        const $navBar = document.querySelector('.navBar');
         const $navToggle = document.querySelector('.navToggle');
         const $navMenu = document.querySelector('.navMenu');
-        const $mainImg = document.querySelector('.mainImg');
+        const $background = document.querySelector('.background');
         const $title = document.querySelector('.title');
+        const $title2 = document.querySelector('.title2');
+        const $afterTitle = document.querySelector('.afterTitle');
 
-        $navToggle.addEventListener('click', ()=> {
+        $navToggle.addEventListener('click', (e)=> {
+            e.preventDefault();
             $navMenu.classList.toggle('active')
+            $background.classList.toggle('extend');
+
         })
 
-        window.addEventListener('scroll', function() {
+        window.addEventListener('scroll', function(e) {
+            console.log();
+            e.preventDefault();
             if(window.scrollY > 0) {
-                $mainImg.classList.add('extend');
+                $topDiv.classList.add('remove');
                 $title.classList.add('fadeAway');
+                $title.classList.add('transition');
+                $navBar.classList.add('disappear');
+                $title2.classList.add('fadeAway');
+                $title2.classList.add('transition');
+                $background.classList.add('transition');
+                $afterTitle.classList.add('showAfterTitle');
+                $navBar.classList.add('transition');
+                $background.classList.add('extend');
+                $topDiv.classList.add('transition');
             } else {
+                $topDiv.classList.remove('remove');
                 $title.classList.remove('fadeAway');
+                $title2.classList.remove('fadeAway');
+                $background.classList.remove('extend');
+                $afterTitle.classList.remove('showAfterTitle');
+                $navBar.classList.remove('disappear');
             }
         })
     </script>
