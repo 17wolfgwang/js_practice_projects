@@ -6,7 +6,7 @@
 <br />
 <div align="center">
 
-  <h2 align="center">responsive Web</h2>
+  <h2 align="center">Responsive Web</h2>
   <p align="center">
     Resize browser and scroll it! you can see the difference!
     <br />
