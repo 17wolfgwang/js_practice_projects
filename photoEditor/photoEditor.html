@@ -8,12 +8,13 @@
     <link rel="stylesheet" href="photoEditor.css">
 </head>
 <body>
-    <div>Put your photo HERE!</div>
     <form>
         <label for="uploadImage">Put your photo HERE!</label>
-        <input type="file" id="uploadImage" accept="image/*"/>
+        <div>File name : <span class="uploadFileName"></span></div>
+        <input type="file" id="uploadImage" accept="image/*" onchange="loadFile(this)">
     </form>
-    <div>Upload Photo area</div>
+    <img class="uploadImage" src="" alt="upload image area">
+    <div>Check image and press <button>Edit!</button></div>
     <script type="text/JavaScript" src="phtoEditor.js"></script>
 </body>
 </html>
