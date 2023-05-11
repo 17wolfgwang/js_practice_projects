@@ -6,7 +6,8 @@ const ctx = $canvas.getContext("2d");
 $canvas.width = 700;
 $canvas.height = 700;
 
-ctx.strokeStyle = "#000000";
+// ctx.strokeStyle = "#000000";
+ctx.strokeStyle = "black";
 ctx.lineWidth = 2.5;
 
 let painting = false;
@@ -51,5 +52,19 @@ function loadFile(input) {
 }
 
 function pickColor(e) {
-  console.log(e.style.backgroundColor);
+  ctx.strokeStyle = e.style.backgroundColor;
+}
+
+let backgroundImage = new Image();
+console.log(backgroundImage);
+function applyImageToCanvas() {
+  backgroundImage.src = $uploadImage.src;
+  backgroundImage.onload = function () {
+    ctx.drawImage(backgroundImage, 0, 0, 500, 500);
+  };
+}
+
+//Change Brush Size
+function changeBrushSize(e) {
+  ctx.lineWidth = e.value;
 }
