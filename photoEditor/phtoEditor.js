@@ -1,6 +1,7 @@
 const $uploadFileName = document.querySelector(".uploadFileName");
 const $uploadImage = document.querySelector(".uploadImage");
 const $canvas = document.querySelector(".canvas");
+const $paletteColors = document.querySelectorAll(".paletteColor");
 const ctx = $canvas.getContext("2d");
 
 $canvas.width = 700;
@@ -52,7 +53,7 @@ function loadFile(input) {
 }
 
 function pickColor(e) {
-  ctx.strokeStyle = e.style.backgroundColor;
+  ctx.strokeStyle = e.target.style.backgroundColor;
 }
 
 let backgroundImage = new Image();
@@ -68,3 +69,16 @@ function applyImageToCanvas() {
 function changeBrushSize(e) {
   ctx.lineWidth = e.value;
 }
+
+//Save Edited image
+function saveEditedImage() {
+  const saveImage = $canvas.toDataURL();
+  const link = document.createElement("a");
+  link.href = saveImage;
+  link.download = "PaintJS";
+  link.click();
+}
+
+Array.from($paletteColors).forEach((color) =>
+  color.addEventListener("click", pickColor)
+);
