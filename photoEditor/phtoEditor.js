@@ -1,3 +1,5 @@
+const $uploadSection = document.querySelector(".uploadSection");
+const $editSection = document.querySelector(".editSection");
 const $uploadFileName = document.querySelector(".uploadFileName");
 const $uploadImage = document.querySelector(".uploadImage");
 const $canvas = document.querySelector(".canvas");
