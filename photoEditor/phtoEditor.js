@@ -7,20 +7,17 @@ const ctx = $canvas.getContext("2d");
 $canvas.width = 700;
 $canvas.height = 700;
 
-// ctx.strokeStyle = "#000000";
+// Drawing function
 ctx.strokeStyle = "black";
 ctx.lineWidth = 2.5;
 
 let painting = false;
-
 function stopPainting() {
   painting = false;
 }
-
 function startPainting() {
   painting = true;
 }
-
 function onMouseMove(e) {
   const x = e.offsetX;
   const y = e.offsetY;
@@ -32,11 +29,9 @@ function onMouseMove(e) {
     ctx.stroke();
   }
 }
-
 function onMouseDown(e) {
   painting = true;
 }
-
 if ($canvas) {
   $canvas.addEventListener("mousemove", onMouseMove);
   $canvas.addEventListener("mousedown", startPainting);
@@ -44,7 +39,7 @@ if ($canvas) {
   $canvas.addEventListener("mouseleave", stopPainting);
 }
 
-// 이미지 불러오기
+// Upload Image
 function loadFile(input) {
   let file = input.files[0];
   $uploadFileName.textContent = file.name;
@@ -52,6 +47,7 @@ function loadFile(input) {
   $uploadImage.src = URL.createObjectURL(file);
 }
 
+//Pick Color from palette
 function pickColor(e) {
   ctx.strokeStyle = e.target.style.backgroundColor;
 }
@@ -61,7 +57,7 @@ console.log(backgroundImage);
 function applyImageToCanvas() {
   backgroundImage.src = $uploadImage.src;
   backgroundImage.onload = function () {
-    ctx.drawImage(backgroundImage, 0, 0, 500, 500);
+    ctx.drawImage(backgroundImage, 0, 0, 700, 700);
   };
 }
 

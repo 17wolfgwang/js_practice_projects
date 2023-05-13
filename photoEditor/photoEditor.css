@@ -4,6 +4,11 @@
     box-sizing: border-box;
 }
 
+.uploadImage{
+    width: 700px;
+    height: 700px;
+}
+
 .canvas {
     background-color: red;
 }
