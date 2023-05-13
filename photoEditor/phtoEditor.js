@@ -3,6 +3,8 @@ const $editSection = document.querySelector(".editSection");
 const $uploadFileName = document.querySelector(".uploadFileName");
 const $uploadImage = document.querySelector(".uploadImage");
 const $canvas = document.querySelector(".canvas");
+const $cursor = document.querySelector(".cursor");
+const $cursorRange = document.querySelector(".cursorRange");
 const $paletteColors = document.querySelectorAll(".paletteColor");
 const ctx = $canvas.getContext("2d");
 
@@ -16,11 +18,15 @@ ctx.lineWidth = 2.5;
 let painting = false;
 function stopPainting() {
   painting = false;
+  $cursor.classList.remove("cursor");
 }
 function startPainting() {
   painting = true;
 }
 function onMouseMove(e) {
+  $cursor.classList.add("cursor");
+  $cursor.style.top = e.pageY + "px";
+  $cursor.style.left = e.pageX + "px";
   const x = e.offsetX;
   const y = e.offsetY;
   if (!painting) {
@@ -52,6 +58,8 @@ function loadFile(input) {
 //Pick Color from palette
 function pickColor(e) {
   ctx.strokeStyle = e.target.style.backgroundColor;
+  $cursor.style.backgroundColor = e.target.style.backgroundColor;
+  $cursor.style.border = e.target.style.backgroundColor;
 }
 
 let backgroundImage = new Image();
@@ -65,7 +73,11 @@ function applyImageToCanvas() {
 
 //Change Brush Size
 function changeBrushSize(e) {
-  ctx.lineWidth = e.value;
+  let size = e.value;
+  let rangeValue = 0.1;
+  ctx.lineWidth = size;
+  $cursorRange.style.width = size * rangeValue + "rem";
+  $cursorRange.style.height = size * rangeValue + "rem";
 }
 
 //Save Edited image
