@@ -12,6 +12,8 @@ const ctx = $canvas.getContext("2d");
 $canvas.width = 700;
 $canvas.height = 700;
 
+let editHistoryArray = [];
+let index;
 // Drawing function
 ctx.strokeStyle = "black";
 ctx.lineWidth = 2.5;
@@ -21,8 +23,15 @@ function stopPainting() {
   painting = false;
   $cursor.classList.remove("cursor");
 }
-function startPainting() {
+function startPainting(e) {
+  e.preventDefault();
   painting = true;
+  if (e.type != "mouseout") {
+    editHistoryArray.push(
+      ctx.getImageData(0, 0, $canvas.width, $canvas.height)
+    );
+    index += 1;
+  }
 }
 function onMouseMove(e) {
   $cursor.classList.add("cursor");
@@ -52,6 +61,19 @@ function clearCanvas() {
   applyImageToCanvas();
   ctx.clearRect(0, 0, $canvas.width, $canvas.height);
   ctx.fillRect(0, 0, $canvas.width, $canvas.height);
+
+  editHistoryArray = [];
+}
+
+function undoEdit() {
+  index = editHistoryArray.length;
+  if (index <= 0) {
+    clearCanvas();
+  } else {
+    // index -= 1;
+    ctx.putImageData(editHistoryArray[index - 1], 0, 0);
+    editHistoryArray.pop();
+  }
 }
 
 // Upload Image
@@ -96,6 +118,7 @@ function saveEditedImage() {
   link.href = saveImage;
   link.download = `${fileName} Edited`;
   link.click();
+  link.remove();
 }
 
 Array.from($paletteColors).forEach((color) =>
