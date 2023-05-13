@@ -2,6 +2,7 @@ const $uploadSection = document.querySelector(".uploadSection");
 const $editSection = document.querySelector(".editSection");
 const $uploadFileName = document.querySelector(".uploadFileName");
 const $uploadImage = document.querySelector(".uploadImage");
+const $saveBtn = document.querySelector(".saveBtn");
 const $canvas = document.querySelector(".canvas");
 const $cursor = document.querySelector(".cursor");
 const $cursorRange = document.querySelector(".cursorRange");
@@ -47,10 +48,18 @@ if ($canvas) {
   $canvas.addEventListener("mouseleave", stopPainting);
 }
 
+function clearCanvas() {
+  applyImageToCanvas();
+  ctx.clearRect(0, 0, $canvas.width, $canvas.height);
+  ctx.fillRect(0, 0, $canvas.width, $canvas.height);
+}
+
 // Upload Image
+let fileName;
 function loadFile(input) {
   let file = input.files[0];
   $uploadFileName.textContent = file.name;
+  fileName = file.name;
 
   $uploadImage.src = URL.createObjectURL(file);
 }
@@ -85,10 +94,12 @@ function saveEditedImage() {
   const saveImage = $canvas.toDataURL();
   const link = document.createElement("a");
   link.href = saveImage;
-  link.download = "PaintJS";
+  link.download = `${fileName} Edited`;
   link.click();
 }
 
 Array.from($paletteColors).forEach((color) =>
   color.addEventListener("click", pickColor)
 );
+
+$saveBtn.addEventListener("click", saveEditedImage);
