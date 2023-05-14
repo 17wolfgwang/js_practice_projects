@@ -21,6 +21,7 @@ let editHistoryArray = [];
 let index;
 $cursorRange.style.display = "none";
 $cursor.style.display = "none";
+$aftUploadSection.style.display = "none";
 $editSection.style.display = "none";
 // Drawing function
 ctx.strokeStyle = "black";
@@ -131,7 +132,6 @@ function rechooseImage() {
 
 //Change Brush Size
 function changeBrushSize(e) {
-  console.log("hi");
   let size = e.value;
   let rangeValue = 0.1;
   ctx.lineWidth = size;
